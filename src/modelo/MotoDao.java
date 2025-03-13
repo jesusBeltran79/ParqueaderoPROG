@@ -1,17 +1,19 @@
 package modelo;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MotoDao {
 
 	private ArrayList<Moto> listaMoto;
+	private ArrayList<Moto> listaPagos;
 	private final String FILE_NAME = "Moto.csv";
 	private final String SERIAL_NAME = "Moto.dat";
+	private final String FILE_GANANCIA = "MetodoPago.csv";
 
 	public MotoDao() {
 		FileHandler.checkFolder();
 		readSerialized();
+
 	}
 
 	public String showAll() {
@@ -30,15 +32,46 @@ public class MotoDao {
 		return listaMoto;
 	}
 
-	public boolean add(Moto newData) {
+	public int add(Moto newData) {
+		Moto found = find(newData);
 		if (find((newData)) == null) {
 			listaMoto.add((newData));
 			writeFile();
 			writeSerialized();
-			return true;
+			return 1;
+		} else if (found.isEstaParqueado() == true) {
+			return 2;
 		} else {
-			return false;
+			return 3;
 		}
+	}
+
+	public double pago(Moto salida) {
+		Moto found = find(salida);
+		if (found != null) {
+			listaPagos.add(found);
+			double precio = 0;
+			switch (found.getTipoDeCobro()) {
+			case "Deportista":
+				precio = found.precioDeportista();
+				break;
+
+			case "Evento":
+				precio = found.precioEvento();
+				break;
+
+			case "Normal":
+				precio = found.precio(false);
+				break;
+			default:
+				precio = found.precio(false);
+				break;
+			}
+			writeFilePago();
+			return precio;
+		}
+		return -1;
+
 	}
 
 	public boolean delete(Moto toDelete) {
@@ -77,6 +110,19 @@ public class MotoDao {
 		}
 	}
 
+	public void writeFilePago() {
+		String content = "";
+		for (Moto moto : listaMoto) {
+			content += moto.getPlaca() + ";";
+			content += moto.getLlegada() + ";";
+			content += moto.getSalida() + ";";
+			content += moto.getTipoDeCobro() + ";";
+			content += moto.getTipoDePago() + ";";
+			content += "\n";
+		}
+		FileHandler.writeFile(FILE_GANANCIA, content);
+	}
+
 	public void writeFile() {
 		String content = "";
 		for (Moto m : listaMoto) {
@@ -91,30 +137,9 @@ public class MotoDao {
 		FileHandler.writeFile(FILE_NAME, content);
 	}
 
-	public void readFile() {
-		String content = FileHandler.readFile(FILE_NAME);
-
-		if (content == null || content.equals("")) {
-			listaMoto = new ArrayList<>();
-		} else {
-			listaMoto = new ArrayList<>();
-			String[] rows = content.split("\n");
-			for (String row : rows) {
-				String[] cols = row.split(";");
-				Moto temporal = new Moto();
-				temporal.setPlaca(cols[0]);
-				temporal.setNumeroTelefono(cols[1]);
-				temporal.setUbicacion(cols[2]);
-				temporal.setLlegada(LocalDateTime.parse(cols[3]));
-				temporal.setSalida(LocalDateTime.parse(cols[4]));
-				temporal.setEstaParqueado(Boolean.parseBoolean(cols[5]));
-				listaMoto.add(temporal);
-			}
-		}
-	}
-
 	public void writeSerialized() {
 		FileHandler.writeSerialized(SERIAL_NAME, listaMoto);
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -122,11 +147,12 @@ public class MotoDao {
 		Object content = FileHandler.readSerialized(SERIAL_NAME);
 
 		if (content == null) {
-			System.out.println("ES NULO");
+			System.out.println("ES NULO NORMAL");
 			listaMoto = new ArrayList<>();
 		} else {
 			listaMoto = (ArrayList<Moto>) content;
 		}
+
 	}
 
 	public ArrayList<Moto> getListaMoto() {
@@ -136,4 +162,13 @@ public class MotoDao {
 	public void setListaMoto(ArrayList<Moto> listaMoto) {
 		this.listaMoto = listaMoto;
 	}
+
+	public ArrayList<Moto> getListaPagos() {
+		return listaPagos;
+	}
+
+	public void setListaPagos(ArrayList<Moto> listaPagos) {
+		this.listaPagos = listaPagos;
+	}
+
 }

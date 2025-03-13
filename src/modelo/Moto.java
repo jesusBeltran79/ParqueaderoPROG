@@ -16,12 +16,14 @@ public class Moto implements Serializable {
 	private LocalDateTime llegada;
 	private LocalDateTime salida;
 	private boolean estaParqueado;
+	private String tipoDeCobro;
+	private String tipoDePago;
 
 	public Moto() {
 	}
 
 	public Moto(String placa, String numeroTelefono, String ubicacion, LocalDateTime llegada, LocalDateTime salida,
-			boolean estaParqueado) {
+			boolean estaParqueado, String tipoDeCobro, String tipoDePago) {
 		super();
 		this.placa = placa;
 		this.numeroTelefono = numeroTelefono;
@@ -29,6 +31,33 @@ public class Moto implements Serializable {
 		this.llegada = llegada;
 		this.salida = salida;
 		this.estaParqueado = estaParqueado;
+		this.tipoDeCobro = tipoDeCobro;
+		this.tipoDePago = tipoDePago;
+	}
+
+	public Moto(String placa, LocalDateTime llegada, LocalDateTime salida, String tipoDeCobro, String tipoDePago) {
+		super();
+		this.placa = placa;
+		this.llegada = llegada;
+		this.salida = salida;
+		this.tipoDeCobro = tipoDeCobro;
+		this.tipoDePago = tipoDePago;
+	}
+
+	public String getTipoDeCobro() {
+		return tipoDeCobro;
+	}
+
+	public void setTipoDeCobro(String tipoDeCobro) {
+		this.tipoDeCobro = tipoDeCobro;
+	}
+
+	public String getTipoDePago() {
+		return tipoDePago;
+	}
+
+	public void setTipoDePago(String tipoDePago) {
+		this.tipoDePago = tipoDePago;
 	}
 
 	public String getPlaca() {
@@ -77,6 +106,58 @@ public class Moto implements Serializable {
 
 	public void setEstaParqueado(boolean estaParqueado) {
 		this.estaParqueado = estaParqueado;
+	}
+
+	public double precioEvento() {
+		Duration duracion = Duration.between(llegada, salida);
+		long minutos = duracion.toMinutes();
+		double precio = 0;
+
+		if (minutos < 60) {
+			if (minutos < 15) {
+				return 600;
+			} else if (minutos < 30) {
+				return 1200;
+			} else if (minutos < 45) {
+				return 1800;
+			} else {
+				return 2400;
+			}
+		}
+
+		if (minutos < 720) {
+			if (minutos == 60) {
+				return 3000;
+			}
+			precio = 3000;
+			minutos = minutos - 60;
+			while (minutos > 0) {
+				minutos = minutos - 15;
+				if (minutos < 0) {
+					break;
+				}
+				precio += 750;
+				if (precio >= 15000) {
+					return 15000;
+				}
+			}
+
+			if (precio % 100 != 0) {
+				return precio + 50;
+			}
+			return precio;
+		}
+		precio = 15000;
+		minutos = minutos - 720;
+		while (minutos > 0) {
+			precio += 3000;
+			minutos = minutos - 60;
+			if (minutos < 0) {
+				return precio;
+			}
+
+		}
+		return 0;
 	}
 
 	public double precioDeportista() {
@@ -172,7 +253,8 @@ public class Moto implements Serializable {
 	@Override
 	public String toString() {
 		return "Moto [placa=" + placa + ", numeroTelefono=" + numeroTelefono + ", ubicacion=" + ubicacion + ", llegada="
-				+ llegada + ", salida=" + salida + ", estaParqueado=" + estaParqueado + ",\n]";
+				+ llegada + ", salida=" + salida + ", estaParqueado=" + estaParqueado + ", tipoDeCobro=" + tipoDeCobro
+				+ ", tipoDePago=" + tipoDePago + "]";
 	}
 
 }
