@@ -1,7 +1,7 @@
 package modelo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class ContadorDiario implements Serializable {
 
@@ -10,18 +10,20 @@ public class ContadorDiario implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private double ganancia;
-	private double idFactura;
-	private Date dia;
+	private LocalDate dia;
 
 	public ContadorDiario() {
 
 	}
 
-	public ContadorDiario(double ganancia, double idFactura, Date dia) {
+	public ContadorDiario(double ganancia, LocalDate dia) {
 		super();
 		this.ganancia = ganancia;
-		this.idFactura = idFactura;
 		this.dia = dia;
+	}
+
+	public LocalDate getDia() {
+		return dia;
 	}
 
 	public double getGanancia() {
@@ -32,25 +34,13 @@ public class ContadorDiario implements Serializable {
 		this.ganancia = ganancia;
 	}
 
-	public double getIdFactura() {
-		return idFactura;
-	}
-
-	public void setIdFactura(double idFactura) {
-		this.idFactura = idFactura;
-	}
-
-	public Date getDia() {
-		return dia;
-	}
-
-	public void setDia(Date dia) {
+	public void setDia(LocalDate dia) {
 		this.dia = dia;
 	}
 
 	@Override
 	public String toString() {
-		return "ContadorDiario [ganancia=" + ganancia + ", idFactura=" + idFactura + ", dia=" + dia + "]";
+		return "ContadorDiario [ganancia=" + ganancia + " dia=" + dia + "]";
 	}
 
 }

@@ -11,6 +11,7 @@ public class MotoDao {
 	private final String FILE_GANANCIA = "MetodoPago.csv";
 
 	public MotoDao() {
+		listaPagos = new ArrayList<>();
 		FileHandler.checkFolder();
 		readSerialized();
 
