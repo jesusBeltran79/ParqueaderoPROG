@@ -17,7 +17,7 @@ public class VentanaProvisional extends JFrame {
 		inicializarComponentes();
 
 		setTitle("");
-		setSize(1015, 738);
+		setSize(1366, 805);
 		setVisible(true);
 		setLocationRelativeTo(null);
 		setResizable(false);

@@ -7,11 +7,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import modelo.ContadorDiario;
 import modelo.ContadorDiarioDao;
 import modelo.Moto;
 import modelo.MotoDao;
+import ventanaprovisional.PanelProvAgregarMoto;
 import ventanaprovisional.VentanaProvisional;
 
 public class Controller implements ActionListener {
@@ -23,16 +25,16 @@ public class Controller implements ActionListener {
 	private LocalDate hoy;
 
 	public Controller() {
-		
-		 hoy = LocalDate.now();
-		 vp = new VentanaProvisional();
-		 m = new MotoDao();
-		 actual = new Moto();
-		 cd = new ContadorDiarioDao();
-		 if (cd.add(new ContadorDiario(0, hoy))) {
-		 cd.add(new ContadorDiario(0, hoy));
-		 }
-		 inicializarComponentes();
+
+		hoy = LocalDate.now();
+		vp = new VentanaProvisional();
+		m = new MotoDao();
+		actual = new Moto();
+		cd = new ContadorDiarioDao();
+		if (cd.add(new ContadorDiario(0, hoy))) {
+			cd.add(new ContadorDiario(0, hoy));
+		}
+		inicializarComponentes();
 
 	}
 

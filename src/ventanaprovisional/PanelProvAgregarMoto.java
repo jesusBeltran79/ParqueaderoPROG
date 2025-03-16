@@ -36,11 +36,11 @@ public class PanelProvAgregarMoto extends JPanel {
 	 * Metodo para inicializar los componentes
 	 */
 	public void inicializarComponentes() {
-		ImageIcon icono = new ImageIcon("Parqueadero/src/imagenes/ProvDatos.png");
+		ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/AdministracionDeMotos.png"));
 		Image imagen = icono.getImage();
-		Image imagenEscalada = imagen.getScaledInstance(1000, 700, Image.SCALE_SMOOTH);
+		Image imagenEscalada = imagen.getScaledInstance(1366, 768, Image.SCALE_SMOOTH);
 		lblFondo = new JLabel(new ImageIcon(imagenEscalada));
-		lblFondo.setBounds(0, 0, 1000, 700);
+		lblFondo.setBounds(0, 0, 1366, 768);
 
 		btnBuscar = new JButton("Buscar");
 		btnVolver = new JButton("Volver");
@@ -48,21 +48,21 @@ public class PanelProvAgregarMoto extends JPanel {
 		txfNumero = new JTextField("Numero");
 		txfPlaca = new JTextField("Placa");
 
-		btnBuscar.setBounds(108, 419, 196, 45);
-		btnVolver.setBounds(401, 419, 196, 45);
+		btnBuscar.setBounds(20, 500, 215, 100);
+		btnVolver.setBounds(20, 660, 215, 100);
 		lblGanancia.setBounds(699, 419, 196, 45);
-		txfNumero.setBounds(50, 50, 150, 50);
-		txfPlaca.setBounds(300, 50, 150, 50);
+		txfNumero.setBounds(610, 390, 215, 80);
+		txfPlaca.setBounds(610, 270, 215, 80);
 
 		btnBuscar.setOpaque(true);
 		btnVolver.setOpaque(true);
 		lblGanancia.setOpaque(true);
 
 		jcomboUbicacion = new JComboBox<>(ubicaciones);
-		jcomboUbicacion.setBounds(296, 339, 150, 26);
+		jcomboUbicacion.setBounds(610, 510, 215, 80);
 
 		jcomboPago = new JComboBox<>(tipo);
-		jcomboPago.setBounds(500, 339, 150, 26);
+		jcomboPago.setBounds(610, 630, 215, 80);
 
 		add(lblFondo);
 
