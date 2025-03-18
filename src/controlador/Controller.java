@@ -5,14 +5,17 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 import modelo.ContadorDiario;
 import modelo.ContadorDiarioDao;
 import modelo.Moto;
 import modelo.MotoDao;
+import ventanaprovisional.PanelInicial;
 import ventanaprovisional.PanelProvAgregarMoto;
 import ventanaprovisional.VentanaProvisional;
 
@@ -47,6 +50,14 @@ public class Controller implements ActionListener {
 		vp.getPp().getbtnAceptar().addActionListener(this);
 		vp.getPp().getbtnAceptar().setActionCommand("aceptarPago");
 
+		vp.getPl().getBtnIngresarAdmin().addActionListener(this);
+		vp.getPl().getBtnIngresarAdmin().setActionCommand("ingresarAdmin");
+		vp.getPl().getBtnIngresarMostrar().addActionListener(this);
+		vp.getPl().getBtnIngresarMostrar().setActionCommand("ingresarMostrar");
+
+		vp.getPm().getBtnVolver().addActionListener(this);
+		vp.getPm().getBtnVolver().setActionCommand("VolverAPrincipalDesdeMostrar");
+
 	}
 
 	@Override
@@ -56,6 +67,20 @@ public class Controller implements ActionListener {
 			buscarMoto();
 			break;
 		case "aceptarPago":
+			break;
+		case "ingresarAdmin":
+			cambioAAdmin();
+			break;
+		case "ingresarMostrar":
+			cambioAMostrar();
+			agregarMotos(m.getListaMoto());
+			break;
+		case "volverPrincipal":
+			cambioInicialDesdeAdmin();
+
+			break;
+		case "VolverAPrincipalDesdeMostrar":
+			cambioInicialDesdeMostrar();
 			break;
 		default:
 			break;
@@ -102,6 +127,42 @@ public class Controller implements ActionListener {
 
 	public void ganancia() {
 
+	}
+
+	public void cambioAAdmin() {
+		vp.cambiarPanel(vp.getPpam());
+
+	}
+
+	public void cambioAMostrar() {
+		vp.cambiarPanel(vp.getPm());
+	}
+
+	public void cambioInicialDesdeAdmin() {
+
+		vp.cambiarPanel(vp.getPl());
+
+	}
+
+	public void cambioInicialDesdeMostrar() {
+		vp.cambiarPanel(vp.getPl());
+	}
+
+	public void agregarMotos(ArrayList<Moto> listaDeMotos) {
+		String[] matriz = new String[5];
+		DefaultTableModel modeloTabla = (DefaultTableModel) vp.getPm().getJtblMotos().getModel();
+
+		modeloTabla.setRowCount(0);
+
+		for (int i = 0; i < listaDeMotos.size(); i++) {
+			Moto moto = listaDeMotos.get(i);
+
+			matriz[0] = moto.getPlaca();
+			matriz[1] = moto.getNumeroTelefono();
+			matriz[2] = moto.getUbicacion();
+
+			modeloTabla.addRow(matriz);
+		}
 	}
 
 }

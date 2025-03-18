@@ -1,5 +1,6 @@
 package ventanaprovisional;
 
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -22,6 +23,8 @@ public class PanelProvAgregarMoto extends JPanel {
 	private JComboBox<String> jcomboPago;
 	private String[] tipo = { "Deportista", "Evento", "Normal" };
 
+	private Font fuente = new Font("Verdana", Font.BOLD, 24);
+
 	/**
 	 * Constructor
 	 */
@@ -42,8 +45,8 @@ public class PanelProvAgregarMoto extends JPanel {
 		lblFondo = new JLabel(new ImageIcon(imagenEscalada));
 		lblFondo.setBounds(0, 0, 1366, 768);
 
-		btnBuscar = new JButton("Buscar");
-		btnVolver = new JButton("Volver");
+		btnBuscar = new JButton("");
+		btnVolver = new JButton("");
 		lblGanancia = new JLabel("Ganancia");
 		txfNumero = new JTextField("Numero");
 		txfPlaca = new JTextField("Placa");
@@ -54,8 +57,14 @@ public class PanelProvAgregarMoto extends JPanel {
 		txfNumero.setBounds(610, 390, 215, 80);
 		txfPlaca.setBounds(610, 270, 215, 80);
 
-		btnBuscar.setOpaque(true);
-		btnVolver.setOpaque(true);
+		btnBuscar.setContentAreaFilled(false);
+		btnBuscar.setBorderPainted(false);
+		btnBuscar.setOpaque(false);
+
+		btnVolver.setContentAreaFilled(false);
+		btnVolver.setBorderPainted(false);
+		btnVolver.setOpaque(false);
+
 		lblGanancia.setOpaque(true);
 
 		jcomboUbicacion = new JComboBox<>(ubicaciones);
@@ -64,8 +73,15 @@ public class PanelProvAgregarMoto extends JPanel {
 		jcomboPago = new JComboBox<>(tipo);
 		jcomboPago.setBounds(610, 630, 215, 80);
 
-		add(lblFondo);
+		btnBuscar.setFont(fuente);
+		btnVolver.setFont(fuente);
+		lblGanancia.setFont(fuente);
+		txfNumero.setFont(fuente);
+		txfPlaca.setFont(fuente);
+		jcomboUbicacion.setFont(fuente);
+		jcomboPago.setFont(fuente);
 
+		// Se añaden los componentes antes del fondo
 		add(jcomboUbicacion);
 		add(jcomboPago);
 		add(txfNumero);
@@ -73,6 +89,9 @@ public class PanelProvAgregarMoto extends JPanel {
 		add(btnBuscar);
 		add(btnVolver);
 		add(lblGanancia);
+
+		// Ahora agregamos el fondo AL FINAL para que quede atrás
+		add(lblFondo);
 	}
 
 	public JButton getbtnBuscar() {
