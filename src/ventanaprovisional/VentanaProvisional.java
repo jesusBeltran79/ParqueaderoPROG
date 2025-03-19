@@ -41,7 +41,7 @@ public class VentanaProvisional extends JFrame {
 		ppam = new PanelProvAgregarMoto();
 		pp = new PanelPago();
 		pm = new PanelMostrarMoto();
-		setContentPane(pl);
+		setContentPane(pp);
 	}
 
 	public PanelPago getPp() {

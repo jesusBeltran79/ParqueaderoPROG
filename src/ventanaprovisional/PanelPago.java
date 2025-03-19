@@ -1,5 +1,6 @@
 package ventanaprovisional;
 
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -18,6 +19,8 @@ public class PanelPago extends JPanel {
 	private JComboBox<String> jcomboPrecio;
 	private String[] precio = { "Efectivo", "Nequi" };
 
+	private Font fuente = new Font("Verdana", Font.BOLD, 28);
+
 	/**
 	 * Constructor
 	 */
@@ -32,14 +35,14 @@ public class PanelPago extends JPanel {
 	 * Metodo para inicializar los componentes
 	 */
 	public void inicializarComponentes() {
-		ImageIcon icono = new ImageIcon("parqueadero/src/imagenes/ProvDatos.png");
+		ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/CobroDeMotos.png"));
 		Image imagen = icono.getImage();
-		Image imagenEscalada = imagen.getScaledInstance(1000, 700, Image.SCALE_SMOOTH);
+		Image imagenEscalada = imagen.getScaledInstance(1280, 685, Image.SCALE_SMOOTH);
 		lblFondo = new JLabel(new ImageIcon(imagenEscalada));
-		lblFondo.setBounds(0, 0, 1000, 700);
+		lblFondo.setBounds(0, 0, 1280, 685);
 
-		btnAceptar = new JButton("Buscar");
-		btnVolver = new JButton("Volver");
+		btnAceptar = new JButton("");
+		btnVolver = new JButton("");
 		lblCelular = new JLabel("Celular");
 		lblHora = new JLabel("Hora");
 		lblMinutos = new JLabel("Minutos");
@@ -47,22 +50,38 @@ public class PanelPago extends JPanel {
 		lblPrecio = new JLabel("Precio");
 		lblTipoDeCobro = new JLabel("Cobro");
 
-		btnAceptar.setBounds(108, 419, 196, 45);
-		btnVolver.setBounds(258, 419, 196, 45);
+		btnAceptar.setBounds(20, 435, 215, 100);
+		btnVolver.setBounds(20, 580, 215, 100);
 
-		lblPrecio.setBounds(100, 50, 150, 50);
-		lblHora.setBounds(300, 50, 150, 50);
-		lblMinutos.setBounds(400, 50, 150, 50);
-		lblCelular.setBounds(200, 50, 150, 50);
-		lblPlaca.setBounds(500, 50, 150, 50);
-		lblPlaca.setBounds(600, 50, 150, 50);
-		lblTipoDeCobro.setBounds(700, 50, 150, 50);
-		btnAceptar.setOpaque(true);
+		btnVolver.setContentAreaFilled(false);
+		btnVolver.setBorderPainted(false);
+		btnVolver.setOpaque(false);
+
+		btnAceptar.setContentAreaFilled(false);
+		btnAceptar.setBorderPainted(false);
+		btnAceptar.setOpaque(false);
+
+		lblPrecio.setBounds(595, 350, 215, 80);
+		lblHora.setBounds(595, 580, 120, 80);
+		lblMinutos.setBounds(720, 580, 120, 80);
+		lblCelular.setBounds(595, 273, 215, 80);
+		lblPlaca.setBounds(595, 205, 215, 80);
+		lblTipoDeCobro.setBounds(595, 430, 215, 80);
 
 		jcomboPrecio = new JComboBox<>(precio);
-		jcomboPrecio.setBounds(296, 339, 150, 26);
+		jcomboPrecio.setBounds(595, 513, 215, 70);
 
-		add(lblFondo);
+		lblPrecio.setFont(fuente);
+		lblHora.setFont(fuente);
+		lblMinutos.setFont(fuente);
+		lblCelular.setFont(fuente);
+		lblPlaca.setFont(fuente);
+		lblTipoDeCobro.setFont(fuente);
+
+		jcomboPrecio.setFont(fuente);
+
+		btnAceptar.setFont(fuente);
+		btnVolver.setFont(fuente);
 
 		add(lblTipoDeCobro);
 		add(lblPrecio);
@@ -73,6 +92,8 @@ public class PanelPago extends JPanel {
 		add(lblHora);
 		add(btnAceptar);
 		add(btnVolver);
+
+		add(lblFondo);
 
 	}
 
