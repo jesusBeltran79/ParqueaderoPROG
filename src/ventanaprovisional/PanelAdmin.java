@@ -67,7 +67,7 @@ public class PanelAdmin extends JPanel {
 
 		jcomboPrecio.setFont(fuente);
 
-		String[] columnas = { "Placa", "Hora entrada", "Hora salida", "Tipo de cobro" };
+		String[] columnas = { "Placa", "Hora entrada", "Hora salida", "Tipo de cobro", "Precio" };
 		jtblMotos = new JTable(new DefaultTableModel(null, columnas));
 		jtblMotos.setBackground(Color.WHITE);
 		jtblMotos.setForeground(new Color(0, 40, 105));

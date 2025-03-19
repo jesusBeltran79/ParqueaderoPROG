@@ -32,6 +32,10 @@ public class MotoDao {
 	public ArrayList<Moto> getAll() {
 		return listaMoto;
 	}
+	
+	public void agregarPago(Moto agregada) {
+		listaPagos.add(agregada);
+	}
 
 	public int add(Moto newData) {
 		Moto found = find(newData);
@@ -50,7 +54,6 @@ public class MotoDao {
 	public double pago(Moto salida) {
 		Moto found = find(salida);
 		if (found != null) {
-			listaPagos.add(found);
 			double precio = 0;
 			switch (found.getTipoDeCobro()) {
 			case "Deportista":

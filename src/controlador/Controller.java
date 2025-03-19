@@ -173,6 +173,8 @@ public class Controller implements ActionListener {
 		actual = new Moto(actual.getPlaca(), actual.getNumeroTelefono(), actual.getUbicacion(), actual.getLlegada(),
 				actual.getSalida(), false, actual.getTipoDeCobro(), tipoCobro);
 		m.update(actual, actual);
+		m.agregarPago(actual);
+		System.out.println(m.getListaPagos());
 		JOptionPane.showMessageDialog(null, "Pago realizado con exito");
 		vp.cambiarPanel(vp.getPpam());
 	}
@@ -226,7 +228,7 @@ public class Controller implements ActionListener {
 	}
 
 	public void agregarMotosAdmin(ArrayList<Moto> listaDeMotos, String pago) {
-		String[] matriz = new String[4];
+		String[] matriz = new String[5];
 		DefaultTableModel modeloTabla = (DefaultTableModel) vp.getPa().getJtblMotos().getModel();
 
 		modeloTabla.setRowCount(0);
@@ -240,13 +242,14 @@ public class Controller implements ActionListener {
 			LocalDateTime fechaSalida = moto.getSalida();
 
 			String horaEntradaStr = fecha.format(timeFormatter);
-			String horaSalidaStr = fecha.format(timeFormatter);
+			String horaSalidaStr = fechaSalida.format(timeFormatter);
 			if (pago.toUpperCase().equals("NEQUI")) {
 				if (moto.getTipoDePago().toUpperCase().equals("NEQUI")) {
 					matriz[0] = moto.getPlaca();
 					matriz[1] = horaEntradaStr;
 					matriz[2] = horaSalidaStr;
 					matriz[3] = moto.getTipoDeCobro();
+					matriz[4] = m.pago(moto) + "";
 
 					modeloTabla.addRow(matriz);
 				}
@@ -256,6 +259,7 @@ public class Controller implements ActionListener {
 					matriz[1] = horaEntradaStr;
 					matriz[2] = horaSalidaStr;
 					matriz[3] = moto.getTipoDeCobro();
+					matriz[4] = m.pago(moto) + "";
 
 					modeloTabla.addRow(matriz);
 				}
