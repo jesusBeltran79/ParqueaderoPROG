@@ -61,6 +61,11 @@ public class Controller implements ActionListener {
 		vp.getPm().getBtnVolver().addActionListener(this);
 		vp.getPm().getBtnVolver().setActionCommand("VolverAPrincipalDesdeMostrar");
 
+		vp.getPa().getBtnAceptar().addActionListener(this);
+		vp.getPa().getBtnAceptar().setActionCommand("aceptarTipoPago");
+		vp.getPa().getBtnVolver().addActionListener(this);
+		vp.getPa().getBtnVolver().setActionCommand("volverAdmin");
+
 	}
 
 	@Override
@@ -90,6 +95,11 @@ public class Controller implements ActionListener {
 			break;
 		case "ocultoAdmin":
 			acciones();
+			break;
+		case "volverAdmin":
+			vp.cambiarPanel(vp.getPl());
+			break;
+		case "aceptarTipoPago":
 			break;
 		default:
 			break;
