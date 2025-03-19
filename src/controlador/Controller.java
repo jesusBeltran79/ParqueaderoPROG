@@ -2,7 +2,6 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -23,16 +22,16 @@ public class Controller implements ActionListener {
 	private LocalDate hoy;
 
 	public Controller() {
-		
-		 hoy = LocalDate.now();
-		 vp = new VentanaProvisional();
-		 m = new MotoDao();
-		 actual = new Moto();
-		 cd = new ContadorDiarioDao();
-		 if (cd.add(new ContadorDiario(0, hoy))) {
-		 cd.add(new ContadorDiario(0, hoy));
-		 }
-		 inicializarComponentes();
+
+		hoy = LocalDate.now();
+		vp = new VentanaProvisional();
+		m = new MotoDao();
+		actual = new Moto();
+		cd = new ContadorDiarioDao();
+		if (cd.add(new ContadorDiario(0, hoy))) {
+			cd.add(new ContadorDiario(0, hoy));
+		}
+		inicializarComponentes();
 
 	}
 
@@ -61,6 +60,7 @@ public class Controller implements ActionListener {
 	}
 
 	public void buscarMoto() {
+		
 		String placa = vp.getPpam().getTxfPlaca().getText();
 		String numero = vp.getPpam().getTxfNumero().getText();
 		String ubicacion = (String) vp.getPpam().getJcomboUbicacion().getSelectedItem();
@@ -68,8 +68,10 @@ public class Controller implements ActionListener {
 		LocalDateTime llegada = LocalDateTime.now();
 
 		Moto agregar = new Moto(placa, numero, ubicacion, llegada, null, true, tipoPago, "");
+		
 
 		if (m.add(agregar) == 1) {
+			
 			m.add(agregar);
 			System.out.println(m.showAll());
 			return;
@@ -81,7 +83,15 @@ public class Controller implements ActionListener {
 			vp.getPpam().getTxfNumero().setText(actual.getNumeroTelefono());
 			vp.getPpam().getTxfPlaca().setText(actual.getPlaca());
 			m.update(agregar, actual);
+
+			vp.cambiarPanel(vp.getPp());
 			JOptionPane.showMessageDialog(null, "Precio" + m.pago(actual), "TRATAMIENTO", 1);
+			vp.getPp().getLblPlaca().setText(actual.getPlaca());
+			vp.getPp().getLblCelular().setText(actual.getNumeroTelefono());
+			vp.getPp().getLblHora().setText(actual.getLlegada().getHour()+"");
+			vp.getPp().getLblMinutos().setText(actual.getLlegada().getMinute()+"");
+			
+			
 
 		} else {
 			LocalDateTime llegadaNueva = LocalDateTime.now();
@@ -98,8 +108,6 @@ public class Controller implements ActionListener {
 
 	}
 
-	public void ganancia() {
-
-	}
+	
 
 }

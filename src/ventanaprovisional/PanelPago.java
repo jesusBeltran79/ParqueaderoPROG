@@ -14,7 +14,7 @@ public class PanelPago extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton btnAceptar;
-	private JLabel lblFondo, lblGanancia, lblHora;
+	private JLabel lblFondo, lblHora, lblMinutos, lblPlaca, lblCelular;
 	private JComboBox<String> jcomboPrecio;
 	private String[] precio = { "Efectivo", "Nequi" };
 
@@ -32,34 +32,46 @@ public class PanelPago extends JPanel {
 	 * Metodo para inicializar los componentes
 	 */
 	public void inicializarComponentes() {
-		ImageIcon icono = new ImageIcon("Parqueadero/src/imagenes/ProvDatos.png");
+		ImageIcon icono = new ImageIcon("parqueadero/src/imagenes/ProvDatos.png");
 		Image imagen = icono.getImage();
 		Image imagenEscalada = imagen.getScaledInstance(1000, 700, Image.SCALE_SMOOTH);
 		lblFondo = new JLabel(new ImageIcon(imagenEscalada));
 		lblFondo.setBounds(0, 0, 1000, 700);
 
 		btnAceptar = new JButton("Buscar");
-		lblGanancia = new JLabel("Ganancia");
+		lblCelular = new JLabel("Celular");
 		lblHora = new JLabel("Hora");
+		lblMinutos = new JLabel("Minutos");
+		lblPlaca = new JLabel("Placa");
 
 		btnAceptar.setBounds(108, 419, 196, 45);
 
-		lblGanancia.setBounds(699, 419, 196, 45);
-
 		lblHora.setBounds(300, 50, 150, 50);
-
+		lblMinutos.setBounds(400, 50, 150, 50);
+		lblCelular.setBounds(200, 50, 150, 50);
+		lblPlaca.setBounds(500, 50, 150, 50);
 		btnAceptar.setOpaque(true);
-		lblGanancia.setOpaque(true);
 
 		jcomboPrecio = new JComboBox<>(precio);
 		jcomboPrecio.setBounds(296, 339, 150, 26);
 
 		add(lblFondo);
 
+		add(lblCelular);
+		add(lblPlaca);
+		add(lblMinutos);
 		add(jcomboPrecio);
 		add(lblHora);
 		add(btnAceptar);
-		add(lblGanancia);
+
+	}
+
+	public JLabel getLblMinutos() {
+		return lblMinutos;
+	}
+
+	public void setLblMinutos(JLabel lblMinutos) {
+		this.lblMinutos = lblMinutos;
 	}
 
 	public JLabel getLblFondo() {
@@ -68,14 +80,6 @@ public class PanelPago extends JPanel {
 
 	public void setLblFondo(JLabel lblFondo) {
 		this.lblFondo = lblFondo;
-	}
-
-	public JLabel getLblGanancia() {
-		return lblGanancia;
-	}
-
-	public void setLblGanancia(JLabel lblGanancia) {
-		this.lblGanancia = lblGanancia;
 	}
 
 	public JComboBox<String> getjcomboPrecio() {
@@ -125,5 +129,23 @@ public class PanelPago extends JPanel {
 	public void setbtnAceptar(JButton btnAceptar) {
 		this.btnAceptar = btnAceptar;
 	}
+
+	public JLabel getLblPlaca() {
+		return lblPlaca;
+	}
+
+	public void setLblPlaca(JLabel lblPlaca) {
+		this.lblPlaca = lblPlaca;
+	}
+
+	public JLabel getLblCelular() {
+		return lblCelular;
+	}
+
+	public void setLblCelular(JLabel lblCelular) {
+		this.lblCelular = lblCelular;
+	}
+	
+	
 
 }

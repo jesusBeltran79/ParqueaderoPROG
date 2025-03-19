@@ -10,21 +10,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class PanelProvAgregarMoto extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JButton btnBuscar, btnVolver;
-	private JLabel lblFondo, lblGanancia;
+	private JLabel lblFondo;
 	private JTextField txfPlaca, txfNumero;
 	private JComboBox<String> jcomboUbicacion;
 	private String[] ubicaciones = { "A", "B", "C" };
 	private JComboBox<String> jcomboPago;
 	private String[] tipo = { "Deportista", "Evento", "Normal" };
 
-	/**
-	 * Constructor
-	 */
 	public PanelProvAgregarMoto() {
 		inicializarComponentes();
 
@@ -32,11 +27,8 @@ public class PanelProvAgregarMoto extends JPanel {
 		setVisible(true);
 	}
 
-	/**
-	 * Metodo para inicializar los componentes
-	 */
 	public void inicializarComponentes() {
-		ImageIcon icono = new ImageIcon("Parqueadero/src/imagenes/ProvDatos.png");
+		ImageIcon icono = new ImageIcon("src/ventanaprovisional/ProvDatos.png");
 		Image imagen = icono.getImage();
 		Image imagenEscalada = imagen.getScaledInstance(1000, 700, Image.SCALE_SMOOTH);
 		lblFondo = new JLabel(new ImageIcon(imagenEscalada));
@@ -44,19 +36,19 @@ public class PanelProvAgregarMoto extends JPanel {
 
 		btnBuscar = new JButton("Buscar");
 		btnVolver = new JButton("Volver");
-		lblGanancia = new JLabel("Ganancia");
+		
 		txfNumero = new JTextField("Numero");
 		txfPlaca = new JTextField("Placa");
 
 		btnBuscar.setBounds(108, 419, 196, 45);
 		btnVolver.setBounds(401, 419, 196, 45);
-		lblGanancia.setBounds(699, 419, 196, 45);
+	
 		txfNumero.setBounds(50, 50, 150, 50);
 		txfPlaca.setBounds(300, 50, 150, 50);
 
 		btnBuscar.setOpaque(true);
 		btnVolver.setOpaque(true);
-		lblGanancia.setOpaque(true);
+		
 
 		jcomboUbicacion = new JComboBox<>(ubicaciones);
 		jcomboUbicacion.setBounds(296, 339, 150, 26);
@@ -72,7 +64,7 @@ public class PanelProvAgregarMoto extends JPanel {
 		add(txfPlaca);
 		add(btnBuscar);
 		add(btnVolver);
-		add(lblGanancia);
+		
 	}
 
 	public JButton getbtnBuscar() {
@@ -99,13 +91,6 @@ public class PanelProvAgregarMoto extends JPanel {
 		this.lblFondo = lblFondo;
 	}
 
-	public JLabel getLblGanancia() {
-		return lblGanancia;
-	}
-
-	public void setLblGanancia(JLabel lblGanancia) {
-		this.lblGanancia = lblGanancia;
-	}
 
 	public JTextField getTxfPlaca() {
 		return txfPlaca;
