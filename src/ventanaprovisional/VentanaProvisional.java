@@ -44,6 +44,7 @@ public class VentanaProvisional extends JFrame {
 		pm = new PanelMostrarMoto();
 		pa = new PanelAdmin();
 		setContentPane(pl);
+
 	}
 
 	public PanelAdmin getPa() {

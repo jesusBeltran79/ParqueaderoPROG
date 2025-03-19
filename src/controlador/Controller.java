@@ -119,6 +119,7 @@ public class Controller implements ActionListener {
 
 		if (m.add(agregar) == 1) {
 
+			JOptionPane.showMessageDialog(null, "Moto creada con exito");
 			m.add(agregar);
 			System.out.println(m.showAll());
 			return;
@@ -148,7 +149,7 @@ public class Controller implements ActionListener {
 			tipoPago = (String) vp.getPpam().getJcomboPago().getSelectedItem();
 			actual = new Moto(agregar.getPlaca(), agregar.getNumeroTelefono(), ubicacion, llegadaNueva, null, true,
 					tipoPago, "");
-
+			JOptionPane.showMessageDialog(null, "Moto guardada con exito");
 			m.update(agregar, actual);
 
 		}
@@ -160,7 +161,7 @@ public class Controller implements ActionListener {
 		actual = new Moto(actual.getPlaca(), actual.getNumeroTelefono(), actual.getUbicacion(), actual.getLlegada(),
 				actual.getSalida(), false, actual.getTipoDeCobro(), tipoCobro);
 		m.update(actual, actual);
-
+		JOptionPane.showMessageDialog(null, "Pago realizado con exito");
 		vp.cambiarPanel(vp.getPpam());
 	}
 
