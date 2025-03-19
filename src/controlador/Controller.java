@@ -61,6 +61,11 @@ public class Controller implements ActionListener {
 		vp.getPm().getBtnVolver().addActionListener(this);
 		vp.getPm().getBtnVolver().setActionCommand("VolverAPrincipalDesdeMostrar");
 
+		vp.getPa().getBtnAceptar().addActionListener(this);
+		vp.getPa().getBtnAceptar().setActionCommand("aceptarTipoPago");
+		vp.getPa().getBtnVolver().addActionListener(this);
+		vp.getPa().getBtnVolver().setActionCommand("volverAdmin");
+
 	}
 
 	@Override
@@ -90,6 +95,13 @@ public class Controller implements ActionListener {
 			break;
 		case "ocultoAdmin":
 			acciones();
+			break;
+		case "volverAdmin":
+			vp.cambiarPanel(vp.getPl());
+			break;
+		case "aceptarTipoPago":
+			String combo = (String) vp.getPa().getJcomboPrecio().getSelectedItem();
+			agregarMotosAdmin(m.getListaPagos(), combo);
 			break;
 		default:
 			break;
@@ -209,6 +221,44 @@ public class Controller implements ActionListener {
 				matriz[4] = horaStr;
 
 				modeloTabla.addRow(matriz);
+			}
+		}
+	}
+
+	public void agregarMotosAdmin(ArrayList<Moto> listaDeMotos, String pago) {
+		String[] matriz = new String[4];
+		DefaultTableModel modeloTabla = (DefaultTableModel) vp.getPa().getJtblMotos().getModel();
+
+		modeloTabla.setRowCount(0);
+
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+		for (int i = 0; i < listaDeMotos.size(); i++) {
+
+			Moto moto = listaDeMotos.get(i);
+			LocalDateTime fecha = moto.getLlegada();
+			LocalDateTime fechaSalida = moto.getSalida();
+
+			String horaEntradaStr = fecha.format(timeFormatter);
+			String horaSalidaStr = fecha.format(timeFormatter);
+			if (pago.toUpperCase().equals("NEQUI")) {
+				if (moto.getTipoDePago().toUpperCase().equals("NEQUI")) {
+					matriz[0] = moto.getPlaca();
+					matriz[1] = horaEntradaStr;
+					matriz[2] = horaSalidaStr;
+					matriz[3] = moto.getTipoDeCobro();
+
+					modeloTabla.addRow(matriz);
+				}
+			} else {
+				if (moto.getTipoDePago().toUpperCase().equals("EFECTIVO")) {
+					matriz[0] = moto.getPlaca();
+					matriz[1] = horaEntradaStr;
+					matriz[2] = horaSalidaStr;
+					matriz[3] = moto.getTipoDeCobro();
+
+					modeloTabla.addRow(matriz);
+				}
 			}
 		}
 	}
