@@ -54,8 +54,8 @@ public class PanelProvAgregarMoto extends JPanel {
 		btnBuscar.setBounds(20, 435, 215, 100);
 		btnVolver.setBounds(20, 580, 215, 100);
 
-		txfNumero.setBounds(610, 345, 215, 80);
-		txfPlaca.setBounds(610, 235, 215, 80);
+		txfNumero.setBounds(610, 351, 215, 80);
+		txfPlaca.setBounds(610, 232, 215, 80);
 
 		btnBuscar.setContentAreaFilled(false);
 		btnBuscar.setBorderPainted(false);
@@ -69,7 +69,7 @@ public class PanelProvAgregarMoto extends JPanel {
 		jcomboUbicacion.setBounds(610, 450, 215, 80);
 
 		jcomboPago = new JComboBox<>(tipo);
-		jcomboPago.setBounds(610, 558, 215, 80);
+		jcomboPago.setBounds(610, 555, 215, 80);
 
 		btnBuscar.setFont(fuente);
 		btnVolver.setFont(fuente);
