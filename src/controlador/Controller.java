@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -173,12 +174,21 @@ public class Controller implements ActionListener {
 
 		modeloTabla.setRowCount(0);
 
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
 		for (int i = 0; i < listaDeMotos.size(); i++) {
 			Moto moto = listaDeMotos.get(i);
+			LocalDateTime fecha = moto.getLlegada();
+
+			String fechaStr = fecha.format(dateFormatter);
+			String horaStr = fecha.format(timeFormatter);
 
 			matriz[0] = moto.getPlaca();
 			matriz[1] = moto.getNumeroTelefono();
 			matriz[2] = moto.getUbicacion();
+			matriz[3] = fechaStr;
+			matriz[4] = horaStr;
 
 			modeloTabla.addRow(matriz);
 		}

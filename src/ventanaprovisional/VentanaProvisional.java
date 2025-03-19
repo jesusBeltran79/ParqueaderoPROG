@@ -19,11 +19,12 @@ public class VentanaProvisional extends JFrame {
 		inicializarComponentes();
 
 		setTitle("");
-		setSize(1366, 805);
+		setSize(1280, 720);
 		setVisible(true);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 	}
 
 	public void cambiarPanel(JPanel panel) {

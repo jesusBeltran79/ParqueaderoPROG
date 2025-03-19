@@ -41,9 +41,9 @@ public class PanelProvAgregarMoto extends JPanel {
 	public void inicializarComponentes() {
 		ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/AdministracionDeMotos.png"));
 		Image imagen = icono.getImage();
-		Image imagenEscalada = imagen.getScaledInstance(1366, 768, Image.SCALE_SMOOTH);
+		Image imagenEscalada = imagen.getScaledInstance(1280, 685, Image.SCALE_SMOOTH);
 		lblFondo = new JLabel(new ImageIcon(imagenEscalada));
-		lblFondo.setBounds(0, 0, 1366, 768);
+		lblFondo.setBounds(0, 0, 1280, 685);
 
 		btnBuscar = new JButton("");
 		btnVolver = new JButton("");
@@ -54,16 +54,16 @@ public class PanelProvAgregarMoto extends JPanel {
 		btnBuscar.setBounds(20, 500, 215, 100);
 		btnVolver.setBounds(20, 660, 215, 100);
 		lblGanancia.setBounds(699, 419, 196, 45);
-		txfNumero.setBounds(610, 390, 215, 80);
+		txfNumero.setBounds(610, 370, 215, 80);
 		txfPlaca.setBounds(610, 270, 215, 80);
 
 		btnBuscar.setContentAreaFilled(false);
 		btnBuscar.setBorderPainted(false);
-		btnBuscar.setOpaque(false);
+		btnBuscar.setOpaque(true);
 
 		btnVolver.setContentAreaFilled(false);
 		btnVolver.setBorderPainted(false);
-		btnVolver.setOpaque(false);
+		btnVolver.setOpaque(true);
 
 		lblGanancia.setOpaque(true);
 
