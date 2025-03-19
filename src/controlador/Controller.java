@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.ContadorDiario;
@@ -19,10 +20,6 @@ import ventanaprovisional.VentanaProvisional;
 
 public class Controller implements ActionListener {
 	private LocalDate hoy;
-	private LocalDateTime ahora = LocalDateTime.now();
-	private LocalDateTime salida = ahora.plusHours(20);
-	private Moto prueba = new Moto(null, null, null, ahora, salida, false, null, null);
-	
 	private VentanaProvisional vp;
 	private MotoDao m;
 	private Moto actual;
@@ -30,7 +27,7 @@ public class Controller implements ActionListener {
 //	private ContadorDiario contador;
 
 	public Controller() {
-		System.out.println(prueba.precioEvento());
+
 		hoy = LocalDate.now();
 		vp = new VentanaProvisional();
 		m = new MotoDao();
@@ -58,6 +55,8 @@ public class Controller implements ActionListener {
 		vp.getPl().getBtnIngresarAdmin().setActionCommand("ingresarAdmin");
 		vp.getPl().getBtnIngresarMostrar().addActionListener(this);
 		vp.getPl().getBtnIngresarMostrar().setActionCommand("ingresarMostrar");
+		vp.getPl().getBtnAdmin().addActionListener(this);
+		vp.getPl().getBtnAdmin().setActionCommand("ocultoAdmin");
 
 		vp.getPm().getBtnVolver().addActionListener(this);
 		vp.getPm().getBtnVolver().setActionCommand("VolverAPrincipalDesdeMostrar");
@@ -89,8 +88,22 @@ public class Controller implements ActionListener {
 		case "VolverAPrincipalDesdeMostrar":
 			cambioInicialDesdeMostrar();
 			break;
+		case "ocultoAdmin":
+			acciones();
+			break;
 		default:
 			break;
+		}
+	}
+
+	public void acciones() {
+		String contraseñaCorrecta = "mamita";
+		String contraseñaIngresada = JOptionPane.showInputDialog("Ingresa la contraseña:");
+		if (contraseñaIngresada != null && contraseñaIngresada.equals(contraseñaCorrecta)) {
+			vp.cambiarPanel(vp.getPa());
+		} else {
+			JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
+
 		}
 	}
 
@@ -124,6 +137,7 @@ public class Controller implements ActionListener {
 			vp.getPp().getLblHora().setText(duracion.toHoursPart() + "");
 			vp.getPp().getLblMinutos().setText(duracion.toMinutesPart() + "");
 			vp.getPp().getLblPrecio().setText(m.pago(actual) + "");
+			vp.getPp().getLblTipoDeCobro().setText(actual.getTipoDeCobro());
 
 			vp.cambiarPanel(vp.getPp());
 

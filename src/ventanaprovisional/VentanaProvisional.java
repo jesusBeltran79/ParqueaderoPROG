@@ -14,6 +14,7 @@ public class VentanaProvisional extends JFrame {
 	private PanelPago pp = new PanelPago();
 	private PanelInicial pl = new PanelInicial();
 	private PanelMostrarMoto pm = new PanelMostrarMoto();
+	private PanelAdmin pa = new PanelAdmin();
 
 	public VentanaProvisional() {
 		inicializarComponentes();
@@ -41,7 +42,16 @@ public class VentanaProvisional extends JFrame {
 		ppam = new PanelProvAgregarMoto();
 		pp = new PanelPago();
 		pm = new PanelMostrarMoto();
+		pa = new PanelAdmin();
 		setContentPane(pl);
+	}
+
+	public PanelAdmin getPa() {
+		return pa;
+	}
+
+	public void setPa(PanelAdmin pa) {
+		this.pa = pa;
 	}
 
 	public PanelPago getPp() {
