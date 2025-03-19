@@ -1,5 +1,6 @@
 package modelo;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MotoDao {
@@ -13,6 +14,7 @@ public class MotoDao {
 	public MotoDao() {
 		listaPagos = new ArrayList<>();
 		FileHandler.checkFolder();
+		readFile();
 		readSerialized();
 
 	}
@@ -33,6 +35,10 @@ public class MotoDao {
 		return listaMoto;
 	}
 
+	public void agregarPago(Moto agregada) {
+		listaPagos.add(agregada);
+	}
+
 	public int add(Moto newData) {
 		Moto found = find(newData);
 		if (find((newData)) == null) {
@@ -47,10 +53,36 @@ public class MotoDao {
 		}
 	}
 
+	public double pagoTabla(Moto salida) {
+		Moto found = salida;
+		if (found != null) {
+			double precio = 0;
+			switch (found.getTipoDeCobro()) {
+			case "Deportista":
+				precio = found.precioDeportista();
+				break;
+
+			case "Evento":
+				precio = found.precioEvento();
+				break;
+
+			case "Normal":
+				precio = found.precio(false);
+				break;
+			default:
+				precio = found.precio(false);
+				break;
+			}
+			writeFilePago();
+			return precio;
+		}
+		return 0;
+
+	}
+
 	public double pago(Moto salida) {
 		Moto found = find(salida);
 		if (found != null) {
-			listaPagos.add(found);
 			double precio = 0;
 			switch (found.getTipoDeCobro()) {
 			case "Deportista":
@@ -108,6 +140,28 @@ public class MotoDao {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	public void readFile() {
+		String content = FileHandler.readFile(FILE_GANANCIA);
+
+		if (content == null || content.equals("")) {
+			listaPagos = new ArrayList<>();
+		} else {
+			listaPagos = new ArrayList<>();
+			String[] rows = content.split("\n");
+			for (String row : rows) {
+				String[] cols = row.split(";");
+				Moto temporal = new Moto();
+				temporal.setPlaca(cols[0]);
+				temporal.setLlegada(LocalDateTime.parse(cols[1]));
+				temporal.setSalida(LocalDateTime.parse(cols[2]));
+				temporal.setTipoDeCobro(cols[3]);
+				temporal.setTipoDePago(cols[4]);
+
+				listaPagos.add(temporal);
+			}
 		}
 	}
 

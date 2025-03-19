@@ -35,6 +35,7 @@ public class Controller implements ActionListener {
 		contador = cd.find(new ContadorDiario(0, hoy));
 		if (contador == null) {
 			cd.add(new ContadorDiario(0, hoy));
+			contador = new ContadorDiario(0, hoy);
 		}
 		inicializarComponentes();
 
@@ -99,7 +100,11 @@ public class Controller implements ActionListener {
 		case "volverAdmin":
 			vp.cambiarPanel(vp.getPl());
 			break;
+
 		case "aceptarTipoAdmin":
+			String combo = (String) vp.getPa().getJcomboPrecio().getSelectedItem();
+			agregarMotosAdmin(m.getListaPagos(), combo);
+
 			break;
 		default:
 			break;
@@ -107,10 +112,6 @@ public class Controller implements ActionListener {
 	}
 
 	public void acciones() {
-		contador = cd.find(new ContadorDiario(0, hoy));
-		double ganancia = contador.getGanancia() + m.pago(actual);
-		cd.update(contador, new ContadorDiario(ganancia, hoy));
-		contador = new ContadorDiario(ganancia, hoy);
 		vp.getPa().getLblGanancias().setText(contador.getGanancia() + "");
 		String contraseñaCorrecta = "mamita";
 		String contraseñaIngresada = JOptionPane.showInputDialog("Ingresa la contraseña:");
@@ -136,7 +137,6 @@ public class Controller implements ActionListener {
 
 			JOptionPane.showMessageDialog(null, "Moto creada con exito");
 			m.add(agregar);
-			System.out.println(m.showAll());
 			return;
 		} else if (m.add(agregar) == 2) {
 			LocalDateTime salida = LocalDateTime.now();
@@ -176,8 +176,14 @@ public class Controller implements ActionListener {
 		actual = new Moto(actual.getPlaca(), actual.getNumeroTelefono(), actual.getUbicacion(), actual.getLlegada(),
 				actual.getSalida(), false, actual.getTipoDeCobro(), tipoCobro);
 		m.update(actual, actual);
+		m.agregarPago(actual);
 		JOptionPane.showMessageDialog(null, "Pago realizado con exito");
 		vp.cambiarPanel(vp.getPpam());
+		contador = cd.find(new ContadorDiario(0, hoy));
+		double ganancia = contador.getGanancia() + m.pago(actual);
+		cd.update(contador, new ContadorDiario(ganancia, hoy));
+		contador = new ContadorDiario(ganancia, hoy);
+		vp.getPa().getLblGanancias().setText(contador.getGanancia() + "");
 	}
 
 	public void cambioAAdmin() {
@@ -224,6 +230,51 @@ public class Controller implements ActionListener {
 				matriz[4] = horaStr;
 
 				modeloTabla.addRow(matriz);
+			}
+		}
+	}
+
+	public void agregarMotosAdmin(ArrayList<Moto> listaDeMotos, String pago) {
+		String[] matriz = new String[5];
+		DefaultTableModel modeloTabla = (DefaultTableModel) vp.getPa().getJtblMotos().getModel();
+
+		modeloTabla.setRowCount(0);
+
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+		for (int i = 0; i < listaDeMotos.size(); i++) {
+
+			Moto moto = listaDeMotos.get(i);
+			LocalDateTime fecha = moto.getLlegada();
+			LocalDateTime fechaSalida = moto.getSalida();
+
+			String horaEntradaStr = fecha.format(timeFormatter);
+			String horaSalidaStr = fechaSalida.format(timeFormatter);
+			if (pago.toUpperCase().equals("NEQUI")) {
+				if (hoy.equals(moto.getSalida().toLocalDate())) {
+					if (moto.getTipoDePago().toUpperCase().equals("NEQUI")) {
+						matriz[0] = moto.getPlaca();
+						matriz[1] = horaEntradaStr;
+						matriz[2] = horaSalidaStr;
+						matriz[3] = moto.getTipoDeCobro();
+						matriz[4] = m.pagoTabla(new Moto("", "", "", moto.getLlegada(), moto.getSalida(), false,
+								moto.getTipoDeCobro(), "")) + "";
+
+						modeloTabla.addRow(matriz);
+					}
+				}
+			} else if (hoy.equals(moto.getSalida().toLocalDate())) {
+				if (moto.getTipoDePago().toUpperCase().equals("EFECTIVO")) {
+					matriz[0] = moto.getPlaca();
+					matriz[1] = horaEntradaStr;
+					matriz[2] = horaSalidaStr;
+					matriz[3] = moto.getTipoDeCobro();
+					matriz[4] = m.pagoTabla(
+							new Moto("", "", "", moto.getLlegada(), moto.getSalida(), false, moto.getTipoDeCobro(), ""))
+							+ "";
+
+					modeloTabla.addRow(matriz);
+				}
 			}
 		}
 	}
