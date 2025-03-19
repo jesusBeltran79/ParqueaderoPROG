@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-
 import javax.swing.table.DefaultTableModel;
 
 import modelo.ContadorDiario;
@@ -19,15 +18,19 @@ import modelo.MotoDao;
 import ventanaprovisional.VentanaProvisional;
 
 public class Controller implements ActionListener {
+	private LocalDate hoy;
+	private LocalDateTime ahora = LocalDateTime.now();
+	private LocalDateTime salida = ahora.plusHours(20);
+	private Moto prueba = new Moto(null, null, null, ahora, salida, false, null, null);
+	
 	private VentanaProvisional vp;
 	private MotoDao m;
 	private Moto actual;
 	private ContadorDiarioDao cd;
 //	private ContadorDiario contador;
-	private LocalDate hoy;
 
 	public Controller() {
-
+		System.out.println(prueba.precioEvento());
 		hoy = LocalDate.now();
 		vp = new VentanaProvisional();
 		m = new MotoDao();

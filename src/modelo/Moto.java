@@ -148,6 +148,7 @@ public class Moto implements Serializable {
 			return precio;
 		}
 		precio = 15000;
+		minutos = duracion.toMinutes();
 		minutos = minutos - 720;
 		while (minutos > 0) {
 			precio += 3000;
@@ -157,7 +158,7 @@ public class Moto implements Serializable {
 			}
 
 		}
-		return 0;
+		return precio;
 	}
 
 	public double precioDeportista() {
