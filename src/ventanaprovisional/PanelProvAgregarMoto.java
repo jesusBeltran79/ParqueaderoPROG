@@ -16,7 +16,7 @@ public class PanelProvAgregarMoto extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton btnBuscar, btnVolver;
-	private JLabel lblFondo, lblGanancia;
+	private JLabel lblFondo;
 	private JTextField txfPlaca, txfNumero;
 	private JComboBox<String> jcomboUbicacion;
 	private String[] ubicaciones = { "A", "B", "C" };
@@ -47,13 +47,13 @@ public class PanelProvAgregarMoto extends JPanel {
 
 		btnBuscar = new JButton("");
 		btnVolver = new JButton("");
-		lblGanancia = new JLabel("Ganancia");
+		
 		txfNumero = new JTextField("Numero");
 		txfPlaca = new JTextField("Placa");
 
 		btnBuscar.setBounds(20, 500, 215, 100);
 		btnVolver.setBounds(20, 660, 215, 100);
-		lblGanancia.setBounds(699, 419, 196, 45);
+		
 		txfNumero.setBounds(610, 370, 215, 80);
 		txfPlaca.setBounds(610, 270, 215, 80);
 
@@ -65,7 +65,6 @@ public class PanelProvAgregarMoto extends JPanel {
 		btnVolver.setBorderPainted(false);
 		btnVolver.setOpaque(true);
 
-		lblGanancia.setOpaque(true);
 
 		jcomboUbicacion = new JComboBox<>(ubicaciones);
 		jcomboUbicacion.setBounds(610, 510, 215, 80);
@@ -75,7 +74,7 @@ public class PanelProvAgregarMoto extends JPanel {
 
 		btnBuscar.setFont(fuente);
 		btnVolver.setFont(fuente);
-		lblGanancia.setFont(fuente);
+	
 		txfNumero.setFont(fuente);
 		txfPlaca.setFont(fuente);
 		jcomboUbicacion.setFont(fuente);
@@ -88,7 +87,7 @@ public class PanelProvAgregarMoto extends JPanel {
 		add(txfPlaca);
 		add(btnBuscar);
 		add(btnVolver);
-		add(lblGanancia);
+	
 
 		// Ahora agregamos el fondo AL FINAL para que quede atrás
 		add(lblFondo);
@@ -116,14 +115,6 @@ public class PanelProvAgregarMoto extends JPanel {
 
 	public void setLblFondo(JLabel lblFondo) {
 		this.lblFondo = lblFondo;
-	}
-
-	public JLabel getLblGanancia() {
-		return lblGanancia;
-	}
-
-	public void setLblGanancia(JLabel lblGanancia) {
-		this.lblGanancia = lblGanancia;
 	}
 
 	public JTextField getTxfPlaca() {

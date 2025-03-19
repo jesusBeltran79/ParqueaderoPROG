@@ -8,16 +8,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
 import javax.swing.table.DefaultTableModel;
 
 import modelo.ContadorDiario;
 import modelo.ContadorDiarioDao;
 import modelo.Moto;
 import modelo.MotoDao;
-import ventanaprovisional.PanelInicial;
-import ventanaprovisional.PanelProvAgregarMoto;
+
 import ventanaprovisional.VentanaProvisional;
 
 public class Controller implements ActionListener {
@@ -25,7 +23,7 @@ public class Controller implements ActionListener {
 	private MotoDao m;
 	private Moto actual;
 	private ContadorDiarioDao cd;
-	private ContadorDiario contador;
+//	private ContadorDiario contador;
 	private LocalDate hoy;
 
 	public Controller() {
@@ -178,19 +176,22 @@ public class Controller implements ActionListener {
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 		for (int i = 0; i < listaDeMotos.size(); i++) {
+
 			Moto moto = listaDeMotos.get(i);
 			LocalDateTime fecha = moto.getLlegada();
 
 			String fechaStr = fecha.format(dateFormatter);
 			String horaStr = fecha.format(timeFormatter);
+			if (moto.isEstaParqueado()) {
 
-			matriz[0] = moto.getPlaca();
-			matriz[1] = moto.getNumeroTelefono();
-			matriz[2] = moto.getUbicacion();
-			matriz[3] = fechaStr;
-			matriz[4] = horaStr;
+				matriz[0] = moto.getPlaca();
+				matriz[1] = moto.getNumeroTelefono();
+				matriz[2] = moto.getUbicacion();
+				matriz[3] = fechaStr;
+				matriz[4] = horaStr;
 
-			modeloTabla.addRow(matriz);
+				modeloTabla.addRow(matriz);
+			}
 		}
 	}
 

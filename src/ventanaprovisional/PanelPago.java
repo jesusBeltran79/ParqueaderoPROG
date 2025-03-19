@@ -49,6 +49,7 @@ public class PanelPago extends JPanel {
 		btnAceptar.setBounds(108, 419, 196, 45);
 		btnVolver.setBounds(258, 419, 196, 45);
 
+		lblPrecio.setBounds(100, 50, 150, 50);
 		lblHora.setBounds(300, 50, 150, 50);
 		lblMinutos.setBounds(400, 50, 150, 50);
 		lblCelular.setBounds(200, 50, 150, 50);
