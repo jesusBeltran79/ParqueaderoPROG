@@ -235,9 +235,9 @@ public class Moto implements Serializable {
 		} else if (minutos > 300 && minutos < 720) {
 			return 10000;
 		} else {
-			minutos = minutos - 720;
 			double precio = 10000;
-			while (minutos > 720) {
+			minutos = minutos - 720;
+			while (minutos > 0) {
 				precio += 2000;
 				minutos = minutos - 60;
 				if (minutos < 0) {

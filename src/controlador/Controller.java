@@ -2,15 +2,21 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 import modelo.ContadorDiario;
 import modelo.ContadorDiarioDao;
 import modelo.Moto;
 import modelo.MotoDao;
+import ventanaprovisional.PanelInicial;
+import ventanaprovisional.PanelProvAgregarMoto;
 import ventanaprovisional.VentanaProvisional;
 
 public class Controller implements ActionListener {
@@ -43,6 +49,16 @@ public class Controller implements ActionListener {
 
 		vp.getPp().getbtnAceptar().addActionListener(this);
 		vp.getPp().getbtnAceptar().setActionCommand("aceptarPago");
+		vp.getPp().getBtnVolver().addActionListener(this);
+		vp.getPp().getBtnVolver().setActionCommand("volverPago");
+
+		vp.getPl().getBtnIngresarAdmin().addActionListener(this);
+		vp.getPl().getBtnIngresarAdmin().setActionCommand("ingresarAdmin");
+		vp.getPl().getBtnIngresarMostrar().addActionListener(this);
+		vp.getPl().getBtnIngresarMostrar().setActionCommand("ingresarMostrar");
+
+		vp.getPm().getBtnVolver().addActionListener(this);
+		vp.getPm().getBtnVolver().setActionCommand("VolverAPrincipalDesdeMostrar");
 
 	}
 
@@ -53,6 +69,23 @@ public class Controller implements ActionListener {
 			buscarMoto();
 			break;
 		case "aceptarPago":
+			pago();
+			break;
+		case "volverPago":
+			vp.cambiarPanel(vp.getPpam());
+			break;
+		case "ingresarAdmin":
+			cambioAAdmin();
+			break;
+		case "ingresarMostrar":
+			cambioAMostrar();
+			agregarMotos(m.getListaMoto());
+			break;
+		case "volverPrincipal":
+			cambioInicialDesdeAdmin();
+			break;
+		case "VolverAPrincipalDesdeMostrar":
+			cambioInicialDesdeMostrar();
 			break;
 		default:
 			break;
@@ -60,7 +93,7 @@ public class Controller implements ActionListener {
 	}
 
 	public void buscarMoto() {
-		
+
 		String placa = vp.getPpam().getTxfPlaca().getText();
 		String numero = vp.getPpam().getTxfNumero().getText();
 		String ubicacion = (String) vp.getPpam().getJcomboUbicacion().getSelectedItem();
@@ -68,10 +101,9 @@ public class Controller implements ActionListener {
 		LocalDateTime llegada = LocalDateTime.now();
 
 		Moto agregar = new Moto(placa, numero, ubicacion, llegada, null, true, tipoPago, "");
-		
 
 		if (m.add(agregar) == 1) {
-			
+
 			m.add(agregar);
 			System.out.println(m.showAll());
 			return;
@@ -79,19 +111,19 @@ public class Controller implements ActionListener {
 			LocalDateTime salida = LocalDateTime.now();
 			agregar = m.find(agregar);
 			actual = new Moto(agregar.getPlaca(), agregar.getNumeroTelefono(), agregar.getUbicacion(),
-					agregar.getLlegada(), salida, false, agregar.getTipoDeCobro(), "Nequi");
+					agregar.getLlegada(), salida, true, agregar.getTipoDeCobro(), null);
 			vp.getPpam().getTxfNumero().setText(actual.getNumeroTelefono());
 			vp.getPpam().getTxfPlaca().setText(actual.getPlaca());
 			m.update(agregar, actual);
 
-			vp.cambiarPanel(vp.getPp());
-			JOptionPane.showMessageDialog(null, "Precio" + m.pago(actual), "TRATAMIENTO", 1);
 			vp.getPp().getLblPlaca().setText(actual.getPlaca());
 			vp.getPp().getLblCelular().setText(actual.getNumeroTelefono());
-			vp.getPp().getLblHora().setText(actual.getLlegada().getHour()+"");
-			vp.getPp().getLblMinutos().setText(actual.getLlegada().getMinute()+"");
-			
-			
+			Duration duracion = Duration.between(actual.getLlegada(), actual.getSalida());
+			vp.getPp().getLblHora().setText(duracion.toHoursPart() + "");
+			vp.getPp().getLblMinutos().setText(duracion.toMinutesPart() + "");
+			vp.getPp().getLblPrecio().setText(m.pago(actual) + "");
+
+			vp.cambiarPanel(vp.getPp());
 
 		} else {
 			LocalDateTime llegadaNueva = LocalDateTime.now();
@@ -100,14 +132,56 @@ public class Controller implements ActionListener {
 			tipoPago = (String) vp.getPpam().getJcomboPago().getSelectedItem();
 			actual = new Moto(agregar.getPlaca(), agregar.getNumeroTelefono(), ubicacion, llegadaNueva, null, true,
 					tipoPago, "");
-			vp.getPpam().getTxfNumero().setText(actual.getNumeroTelefono());
-			vp.getPpam().getTxfPlaca().setText(actual.getPlaca());
+
 			m.update(agregar, actual);
-			JOptionPane.showMessageDialog(null, "Moto ya existe ", "CREAR", 0);
+
 		}
 
 	}
 
-	
+	public void pago() {
+		String tipoCobro = (String) vp.getPp().getJcomboPrecio().getSelectedItem();
+		actual = new Moto(actual.getPlaca(), actual.getNumeroTelefono(), actual.getUbicacion(), actual.getLlegada(),
+				actual.getSalida(), false, actual.getTipoDeCobro(), tipoCobro);
+		m.update(actual, actual);
+
+		vp.cambiarPanel(vp.getPpam());
+	}
+
+	public void cambioAAdmin() {
+		vp.cambiarPanel(vp.getPpam());
+
+	}
+
+	public void cambioAMostrar() {
+		vp.cambiarPanel(vp.getPm());
+	}
+
+	public void cambioInicialDesdeAdmin() {
+
+		vp.cambiarPanel(vp.getPl());
+
+	}
+
+	public void cambioInicialDesdeMostrar() {
+		vp.cambiarPanel(vp.getPl());
+	}
+
+	public void agregarMotos(ArrayList<Moto> listaDeMotos) {
+		String[] matriz = new String[5];
+		DefaultTableModel modeloTabla = (DefaultTableModel) vp.getPm().getJtblMotos().getModel();
+
+		modeloTabla.setRowCount(0);
+
+		for (int i = 0; i < listaDeMotos.size(); i++) {
+			Moto moto = listaDeMotos.get(i);
+
+			matriz[0] = moto.getPlaca();
+			matriz[1] = moto.getNumeroTelefono();
+			matriz[2] = moto.getUbicacion();
+
+			modeloTabla.addRow(matriz);
+		}
+	}
 
 }

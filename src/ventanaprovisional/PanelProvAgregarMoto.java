@@ -1,5 +1,6 @@
 package ventanaprovisional;
 
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -10,16 +11,23 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class PanelProvAgregarMoto extends JPanel {
-
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private JButton btnBuscar, btnVolver;
-	private JLabel lblFondo;
+	private JLabel lblFondo, lblGanancia;
 	private JTextField txfPlaca, txfNumero;
 	private JComboBox<String> jcomboUbicacion;
 	private String[] ubicaciones = { "A", "B", "C" };
 	private JComboBox<String> jcomboPago;
 	private String[] tipo = { "Deportista", "Evento", "Normal" };
 
+	private Font fuente = new Font("Verdana", Font.BOLD, 24);
+
+	/**
+	 * Constructor
+	 */
 	public PanelProvAgregarMoto() {
 		inicializarComponentes();
 
@@ -27,44 +35,63 @@ public class PanelProvAgregarMoto extends JPanel {
 		setVisible(true);
 	}
 
+	/**
+	 * Metodo para inicializar los componentes
+	 */
 	public void inicializarComponentes() {
-		ImageIcon icono = new ImageIcon("src/ventanaprovisional/ProvDatos.png");
+		ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/AdministracionDeMotos.png"));
 		Image imagen = icono.getImage();
-		Image imagenEscalada = imagen.getScaledInstance(1000, 700, Image.SCALE_SMOOTH);
+		Image imagenEscalada = imagen.getScaledInstance(1366, 768, Image.SCALE_SMOOTH);
 		lblFondo = new JLabel(new ImageIcon(imagenEscalada));
-		lblFondo.setBounds(0, 0, 1000, 700);
+		lblFondo.setBounds(0, 0, 1366, 768);
 
-		btnBuscar = new JButton("Buscar");
-		btnVolver = new JButton("Volver");
-		
+		btnBuscar = new JButton("");
+		btnVolver = new JButton("");
+		lblGanancia = new JLabel("Ganancia");
 		txfNumero = new JTextField("Numero");
 		txfPlaca = new JTextField("Placa");
 
-		btnBuscar.setBounds(108, 419, 196, 45);
-		btnVolver.setBounds(401, 419, 196, 45);
-	
-		txfNumero.setBounds(50, 50, 150, 50);
-		txfPlaca.setBounds(300, 50, 150, 50);
+		btnBuscar.setBounds(20, 500, 215, 100);
+		btnVolver.setBounds(20, 660, 215, 100);
+		lblGanancia.setBounds(699, 419, 196, 45);
+		txfNumero.setBounds(610, 390, 215, 80);
+		txfPlaca.setBounds(610, 270, 215, 80);
 
-		btnBuscar.setOpaque(true);
-		btnVolver.setOpaque(true);
-		
+		btnBuscar.setContentAreaFilled(false);
+		btnBuscar.setBorderPainted(false);
+		btnBuscar.setOpaque(false);
+
+		btnVolver.setContentAreaFilled(false);
+		btnVolver.setBorderPainted(false);
+		btnVolver.setOpaque(false);
+
+		lblGanancia.setOpaque(true);
 
 		jcomboUbicacion = new JComboBox<>(ubicaciones);
-		jcomboUbicacion.setBounds(296, 339, 150, 26);
+		jcomboUbicacion.setBounds(610, 510, 215, 80);
 
 		jcomboPago = new JComboBox<>(tipo);
-		jcomboPago.setBounds(500, 339, 150, 26);
+		jcomboPago.setBounds(610, 630, 215, 80);
 
-		add(lblFondo);
+		btnBuscar.setFont(fuente);
+		btnVolver.setFont(fuente);
+		lblGanancia.setFont(fuente);
+		txfNumero.setFont(fuente);
+		txfPlaca.setFont(fuente);
+		jcomboUbicacion.setFont(fuente);
+		jcomboPago.setFont(fuente);
 
+		// Se añaden los componentes antes del fondo
 		add(jcomboUbicacion);
 		add(jcomboPago);
 		add(txfNumero);
 		add(txfPlaca);
 		add(btnBuscar);
 		add(btnVolver);
-		
+		add(lblGanancia);
+
+		// Ahora agregamos el fondo AL FINAL para que quede atrás
+		add(lblFondo);
 	}
 
 	public JButton getbtnBuscar() {
@@ -91,6 +118,13 @@ public class PanelProvAgregarMoto extends JPanel {
 		this.lblFondo = lblFondo;
 	}
 
+	public JLabel getLblGanancia() {
+		return lblGanancia;
+	}
+
+	public void setLblGanancia(JLabel lblGanancia) {
+		this.lblGanancia = lblGanancia;
+	}
 
 	public JTextField getTxfPlaca() {
 		return txfPlaca;
