@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-
 import javax.swing.table.DefaultTableModel;
 
 import modelo.ContadorDiario;
@@ -121,6 +120,7 @@ public class Controller implements ActionListener {
 			vp.getPp().getLblHora().setText(duracion.toHoursPart() + "");
 			vp.getPp().getLblMinutos().setText(duracion.toMinutesPart() + "");
 			vp.getPp().getLblPrecio().setText(m.pago(actual) + "");
+			vp.getPp().getLblTipoDeCobro().setText(actual.getTipoDeCobro());
 
 			vp.cambiarPanel(vp.getPp());
 

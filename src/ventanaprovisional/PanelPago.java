@@ -14,7 +14,7 @@ public class PanelPago extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton btnAceptar, btnVolver;
-	private JLabel lblFondo, lblHora, lblMinutos, lblPlaca, lblCelular, lblPrecio;
+	private JLabel lblFondo, lblHora, lblMinutos, lblPlaca, lblCelular, lblPrecio, lblTipoDeCobro;
 	private JComboBox<String> jcomboPrecio;
 	private String[] precio = { "Efectivo", "Nequi" };
 
@@ -45,6 +45,7 @@ public class PanelPago extends JPanel {
 		lblMinutos = new JLabel("Minutos");
 		lblPlaca = new JLabel("Placa");
 		lblPrecio = new JLabel("Precio");
+		lblTipoDeCobro = new JLabel("Cobro");
 
 		btnAceptar.setBounds(108, 419, 196, 45);
 		btnVolver.setBounds(258, 419, 196, 45);
@@ -55,6 +56,7 @@ public class PanelPago extends JPanel {
 		lblCelular.setBounds(200, 50, 150, 50);
 		lblPlaca.setBounds(500, 50, 150, 50);
 		lblPlaca.setBounds(600, 50, 150, 50);
+		lblTipoDeCobro.setBounds(700, 50, 150, 50);
 		btnAceptar.setOpaque(true);
 
 		jcomboPrecio = new JComboBox<>(precio);
@@ -62,6 +64,7 @@ public class PanelPago extends JPanel {
 
 		add(lblFondo);
 
+		add(lblTipoDeCobro);
 		add(lblPrecio);
 		add(lblCelular);
 		add(lblPlaca);
@@ -71,6 +74,14 @@ public class PanelPago extends JPanel {
 		add(btnAceptar);
 		add(btnVolver);
 
+	}
+
+	public JLabel getLblTipoDeCobro() {
+		return lblTipoDeCobro;
+	}
+
+	public void setLblTipoDeCobro(JLabel lblTipoDeCobro) {
+		this.lblTipoDeCobro = lblTipoDeCobro;
 	}
 
 	public JLabel getLblPrecio() {

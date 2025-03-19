@@ -27,9 +27,9 @@ public class PanelInicial extends JPanel {
 	public void inicializarComponentes() {
 		ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/Inicio.png"));
 		Image imagen = icono.getImage();
-		Image imagenEscalada = imagen.getScaledInstance(1280, 720, Image.SCALE_SMOOTH);
+		Image imagenEscalada = imagen.getScaledInstance(1280, 685, Image.SCALE_SMOOTH);
 		lblFondo = new JLabel(new ImageIcon(imagenEscalada));
-		lblFondo.setBounds(0, 0, 1280, 720);
+		lblFondo.setBounds(0, 0, 1280, 685);
 
 		btnIngresarAdmin = new JButton("");
 		btnIngresarMostrar = new JButton("");
