@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,33 +40,32 @@ public class PanelMostrarMoto extends JPanel {
 		lblFondo.setBounds(0, 0, 1280, 685);
 
 		btnVolver = new JButton("");
-
 		btnVolver.setContentAreaFilled(false);
 		btnVolver.setBorderPainted(false);
 		btnVolver.setOpaque(false);
-
-		btnVolver.setBounds(20, 660, 215, 100);
+		btnVolver.setBounds(20, 573, 215, 100);
 
 		String[] columnas = { "Placa", "Telefono", "Ubicacion", "Fecha de entrada", "Hora" };
 		jtblMotos = new JTable(new DefaultTableModel(null, columnas));
-		jtblMotos.setBounds(251, 292, 800, 262);
 		jtblMotos.setBackground(Color.WHITE);
 		jtblMotos.setForeground(new Color(0, 40, 105));
 		jtblMotos.setFont(fuente2);
 
-		jtblMotos.getTableHeader().setBounds(251, 250, 800, 36);
+		// Configuración del encabezado de la tabla
 		jtblMotos.getTableHeader().setBackground(new Color(0, 15, 40));
-
 		jtblMotos.getTableHeader().setForeground(Color.WHITE);
 		jtblMotos.getTableHeader().setFont(fuente);
 
-		add(jtblMotos);
-		add(jtblMotos.getTableHeader());
+		// Envolver la tabla en un JScrollPane
+		JScrollPane scrollPane = new JScrollPane(jtblMotos);
+		scrollPane.setBounds(251, 272, 800, 262);
+		// Opcional: forzar la visualización de la barra vertical solo cuando sea
+		// necesario
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
+		add(scrollPane);
 		add(btnVolver);
-
 		add(lblFondo);
-
 	}
 
 	public JLabel getLblFondo() {

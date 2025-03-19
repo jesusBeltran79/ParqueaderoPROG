@@ -34,8 +34,8 @@ public class PanelInicial extends JPanel {
 		btnIngresarAdmin = new JButton("");
 		btnIngresarMostrar = new JButton("");
 
-		btnIngresarAdmin.setBounds(250, 465, 300, 100);
-		btnIngresarMostrar.setBounds(800, 465, 300, 100);
+		btnIngresarAdmin.setBounds(250, 435, 300, 100);
+		btnIngresarMostrar.setBounds(755, 435, 300, 100);
 
 		btnIngresarAdmin.setContentAreaFilled(false);
 		btnIngresarAdmin.setBorderPainted(false);
