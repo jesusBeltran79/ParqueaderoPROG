@@ -24,16 +24,16 @@ public class Controller implements ActionListener {
 	private MotoDao m;
 	private Moto actual;
 	private ContadorDiarioDao cd;
-//	private ContadorDiario contador;
+	private ContadorDiario contador;
 
 	public Controller() {
-
+		cd = new ContadorDiarioDao();
 		hoy = LocalDate.now();
 		vp = new VentanaProvisional();
 		m = new MotoDao();
 		actual = new Moto();
-		cd = new ContadorDiarioDao();
-		if (cd.add(new ContadorDiario(0, hoy))) {
+		contador = cd.find(new ContadorDiario(0, hoy));
+		if (contador == null) {
 			cd.add(new ContadorDiario(0, hoy));
 		}
 		inicializarComponentes();
@@ -62,7 +62,7 @@ public class Controller implements ActionListener {
 		vp.getPm().getBtnVolver().setActionCommand("VolverAPrincipalDesdeMostrar");
 
 		vp.getPa().getBtnAceptar().addActionListener(this);
-		vp.getPa().getBtnAceptar().setActionCommand("aceptarTipoPago");
+		vp.getPa().getBtnAceptar().setActionCommand("aceptarTipoAdmin");
 		vp.getPa().getBtnVolver().addActionListener(this);
 		vp.getPa().getBtnVolver().setActionCommand("volverAdmin");
 
@@ -99,7 +99,7 @@ public class Controller implements ActionListener {
 		case "volverAdmin":
 			vp.cambiarPanel(vp.getPl());
 			break;
-		case "aceptarTipoPago":
+		case "aceptarTipoAdmin":
 			break;
 		default:
 			break;
@@ -107,6 +107,11 @@ public class Controller implements ActionListener {
 	}
 
 	public void acciones() {
+		contador = cd.find(new ContadorDiario(0, hoy));
+		double ganancia = contador.getGanancia() + m.pago(actual);
+		cd.update(contador, new ContadorDiario(ganancia, hoy));
+		contador = new ContadorDiario(ganancia, hoy);
+		vp.getPa().getLblGanancias().setText(contador.getGanancia() + "");
 		String contraseñaCorrecta = "mamita";
 		String contraseñaIngresada = JOptionPane.showInputDialog("Ingresa la contraseña:");
 		if (contraseñaIngresada != null && contraseñaIngresada.equals(contraseñaCorrecta)) {

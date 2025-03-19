@@ -59,7 +59,7 @@ public class ContadorDiarioDao {
 	public ContadorDiario find(ContadorDiario toFind) {
 		if (!listaContadorDiario.isEmpty()) {
 			for (ContadorDiario ContadorDiario : listaContadorDiario) {
-				if (ContadorDiario.getDia() == toFind.getDia()) {
+				if (ContadorDiario.getDia().equals(toFind.getDia())) {
 					return ContadorDiario;
 				}
 			}

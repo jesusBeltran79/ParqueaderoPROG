@@ -71,7 +71,7 @@ public class MotoDao {
 			writeFilePago();
 			return precio;
 		}
-		return -1;
+		return 0;
 
 	}
 
