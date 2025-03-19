@@ -1,8 +1,13 @@
 package ventanaprovisional;
 
+import java.awt.Font;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class PanelAdmin extends JPanel {
@@ -14,6 +19,8 @@ public class PanelAdmin extends JPanel {
 	private JLabel lblGanancias;
 	private JButton btnVolver, btnNequi, btnEfectivo, btnAceptar;
 	private JTextField txfFecha;
+	private JTable jtblMotos;
+	private Font fuente = new Font("Times new Roman", Font.BOLD, 28);
 
 	public PanelAdmin() {
 		inicializarComponentes();
@@ -23,6 +30,11 @@ public class PanelAdmin extends JPanel {
 	}
 
 	public void inicializarComponentes() {
+		ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/TablaDeMotos.png"));
+		Image imagen = icono.getImage();
+		Image imagenEscalada = imagen.getScaledInstance(1280, 685, Image.SCALE_SMOOTH);
+		lblGanancias = new JLabel(new ImageIcon(imagenEscalada));
+		lblGanancias.setBounds(0, 0, 1280, 685);
 
 		lblGanancias = new JLabel("Ganancia");
 		btnEfectivo = new JButton("Efectivo");
