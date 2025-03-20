@@ -15,7 +15,6 @@ import modelo.ContadorDiario;
 import modelo.ContadorDiarioDao;
 import modelo.Moto;
 import modelo.MotoDao;
-
 import ventanaprovisional.VentanaProvisional;
 
 public class Controller implements ActionListener {
@@ -27,7 +26,6 @@ public class Controller implements ActionListener {
 	private ContadorDiario contador;
 
 	public Controller() {
-
 		cd = new ContadorDiarioDao();
 		hoy = LocalDate.now();
 		vp = new VentanaProvisional();
@@ -39,7 +37,13 @@ public class Controller implements ActionListener {
 			contador = new ContadorDiario(0, hoy);
 		}
 		inicializarComponentes();
-
+		// Suscribirse al evento de QR para que, al escanear, se ejecute la lógica
+		vp.addQRScanListener(new VentanaProvisional.QRScanListener() {
+			@Override
+			public void onQRScanned(String qrData) {
+				processQRScan(qrData);
+			}
+		});
 	}
 
 	public void inicializarComponentes() {
@@ -67,7 +71,6 @@ public class Controller implements ActionListener {
 		vp.getPa().getBtnAceptar().setActionCommand("aceptarTipoAdmin");
 		vp.getPa().getBtnVolver().addActionListener(this);
 		vp.getPa().getBtnVolver().setActionCommand("volverAdmin");
-
 	}
 
 	@Override
@@ -101,11 +104,9 @@ public class Controller implements ActionListener {
 		case "volverAdmin":
 			vp.cambiarPanel(vp.getPl());
 			break;
-
 		case "aceptarTipoAdmin":
 			String combo = (String) vp.getPa().getJcomboPrecio().getSelectedItem();
 			agregarMotosAdmin(m.getListaPagos(), combo);
-
 			break;
 		default:
 			break;
@@ -120,12 +121,10 @@ public class Controller implements ActionListener {
 			vp.cambiarPanel(vp.getPa());
 		} else {
 			JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
-
 		}
 	}
 
 	public void buscarMoto() {
-
 		String placa = vp.getPpam().getTxfPlaca().getText();
 		String numero = vp.getPpam().getTxfNumero().getText();
 		String ubicacion = (String) vp.getPpam().getJcomboUbicacion().getSelectedItem();
@@ -135,7 +134,6 @@ public class Controller implements ActionListener {
 		Moto agregar = new Moto(placa, numero, ubicacion, llegada, null, true, tipoPago, "");
 
 		if (m.add(agregar) == 1) {
-
 			JOptionPane.showMessageDialog(null, "Moto creada con exito");
 			m.add(agregar);
 			return;
@@ -148,6 +146,7 @@ public class Controller implements ActionListener {
 			vp.getPpam().getTxfPlaca().setText(actual.getPlaca());
 			m.update(agregar, actual);
 
+			// Actualizar datos en PanelPago
 			vp.getPp().getLblPlaca().setText(actual.getPlaca());
 			vp.getPp().getLblCelular().setText(actual.getNumeroTelefono());
 			Duration duracion = Duration.between(actual.getLlegada(), actual.getSalida());
@@ -157,7 +156,6 @@ public class Controller implements ActionListener {
 			vp.getPp().getLblTipoDeCobro().setText(actual.getTipoDeCobro());
 
 			vp.cambiarPanel(vp.getPp());
-
 		} else {
 			LocalDateTime llegadaNueva = LocalDateTime.now();
 			agregar = m.find(agregar);
@@ -167,11 +165,13 @@ public class Controller implements ActionListener {
 					tipoPago, "");
 			JOptionPane.showMessageDialog(null, "Moto guardada con exito");
 			m.update(agregar, actual);
-
 		}
-
 	}
 
+	/**
+	 * Método que se ejecuta cuando se confirma el pago (acción del botón en
+	 * PanelPago).
+	 */
 	public void pago() {
 		String tipoCobro = (String) vp.getPp().getJcomboPrecio().getSelectedItem();
 		Moto motoAgregara = new Moto(actual.getPlaca(), actual.getNumeroTelefono(), actual.getUbicacion(),
@@ -189,7 +189,6 @@ public class Controller implements ActionListener {
 
 	public void cambioAAdmin() {
 		vp.cambiarPanel(vp.getPpam());
-
 	}
 
 	public void cambioAMostrar() {
@@ -197,9 +196,7 @@ public class Controller implements ActionListener {
 	}
 
 	public void cambioInicialDesdeAdmin() {
-
 		vp.cambiarPanel(vp.getPl());
-
 	}
 
 	public void cambioInicialDesdeMostrar() {
@@ -209,27 +206,21 @@ public class Controller implements ActionListener {
 	public void agregarMotos(ArrayList<Moto> listaDeMotos) {
 		String[] matriz = new String[5];
 		DefaultTableModel modeloTabla = (DefaultTableModel) vp.getPm().getJtblMotos().getModel();
-
 		modeloTabla.setRowCount(0);
-
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 		for (int i = 0; i < listaDeMotos.size(); i++) {
-
 			Moto moto = listaDeMotos.get(i);
 			LocalDateTime fecha = moto.getLlegada();
-
 			String fechaStr = fecha.format(dateFormatter);
 			String horaStr = fecha.format(timeFormatter);
 			if (moto.isEstaParqueado()) {
-
 				matriz[0] = moto.getPlaca();
 				matriz[1] = moto.getNumeroTelefono();
 				matriz[2] = moto.getUbicacion();
 				matriz[3] = fechaStr;
 				matriz[4] = horaStr;
-
 				modeloTabla.addRow(matriz);
 			}
 		}
@@ -238,22 +229,17 @@ public class Controller implements ActionListener {
 	public void agregarMotosAdmin(ArrayList<Moto> listaDeMotos, String pago) {
 		String[] matriz = new String[5];
 		DefaultTableModel modeloTabla = (DefaultTableModel) vp.getPa().getJtblMotos().getModel();
-
 		modeloTabla.setRowCount(0);
-
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 		for (int i = 0; i < listaDeMotos.size(); i++) {
-
 			Moto moto = listaDeMotos.get(i);
 			LocalDateTime fecha = moto.getLlegada();
 			LocalDateTime fechaSalida = moto.getSalida();
-
 			String horaEntradaStr = fecha.format(timeFormatter);
 			String horaSalidaStr = fechaSalida.format(timeFormatter);
 			if (hoy.equals(moto.getSalida().toLocalDate())) {
 				if (pago.toUpperCase().equals("NEQUI")) {
-
 					if (moto.getTipoDePago().toUpperCase().equals("NEQUI")) {
 						matriz[0] = moto.getPlaca();
 						matriz[1] = horaEntradaStr;
@@ -261,7 +247,6 @@ public class Controller implements ActionListener {
 						matriz[3] = moto.getTipoDeCobro();
 						matriz[4] = m.pagoTabla(new Moto("", "", "", moto.getLlegada(), moto.getSalida(), false,
 								moto.getTipoDeCobro(), "")) + "";
-
 						modeloTabla.addRow(matriz);
 					}
 				}
@@ -275,7 +260,6 @@ public class Controller implements ActionListener {
 						matriz[3] = moto.getTipoDeCobro();
 						matriz[4] = m.pagoTabla(new Moto("", "", "", moto.getLlegada(), moto.getSalida(), false,
 								moto.getTipoDeCobro(), "")) + "";
-
 						modeloTabla.addRow(matriz);
 					}
 				}
@@ -283,4 +267,34 @@ public class Controller implements ActionListener {
 		}
 	}
 
+	/**
+	 * Método para procesar el QR escaneado. Se asume que el dato recibido es la
+	 * placa.
+	 */
+	public void processQRScan(String qrData) {
+		// Buscamos la moto usando la placa proveniente del QR
+		Moto motoEncontrada = m.find(new Moto(qrData, null, null, null, null, true, null, null));
+		if (motoEncontrada == null) {
+			JOptionPane.showMessageDialog(null, "No se encontró moto para la placa: " + qrData);
+			return;
+		}
+		// Actualizamos la hora de salida
+		LocalDateTime salida = LocalDateTime.now();
+		actual = new Moto(motoEncontrada.getPlaca(), motoEncontrada.getNumeroTelefono(), motoEncontrada.getUbicacion(),
+				motoEncontrada.getLlegada(), salida, true, motoEncontrada.getTipoDeCobro(),
+				motoEncontrada.getTipoDePago());
+		m.update(motoEncontrada, actual);
+
+		// Actualizamos los labels del PanelPago
+		vp.getPp().getLblPlaca().setText(actual.getPlaca());
+		vp.getPp().getLblCelular().setText(actual.getNumeroTelefono());
+		Duration duracion = Duration.between(actual.getLlegada(), actual.getSalida());
+		vp.getPp().getLblHora().setText(duracion.toHoursPart() + "");
+		vp.getPp().getLblMinutos().setText(duracion.toMinutesPart() + "");
+		vp.getPp().getLblPrecio().setText(m.pago(actual) + "");
+		vp.getPp().getLblTipoDeCobro().setText(actual.getTipoDeCobro());
+
+		// Cambiamos al panel de pago
+		vp.cambiarPanel(vp.getPp());
+	}
 }

@@ -2,7 +2,6 @@ package ventanaprovisional;
 
 import java.awt.Font;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,9 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PanelPago extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JButton btnAceptar, btnVolver;
 	private JLabel lblFondo, lblHora, lblMinutos, lblPlaca, lblCelular, lblPrecio, lblTipoDeCobro;
@@ -21,19 +17,12 @@ public class PanelPago extends JPanel {
 
 	private Font fuente = new Font("Verdana", Font.BOLD, 28);
 
-	/**
-	 * Constructor
-	 */
 	public PanelPago() {
 		inicializarComponentes();
-
 		setLayout(null);
 		setVisible(true);
 	}
 
-	/**
-	 * Metodo para inicializar los componentes
-	 */
 	public void inicializarComponentes() {
 		ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/CobroDeMotos.png"));
 		Image imagen = icono.getImage();
@@ -77,9 +66,7 @@ public class PanelPago extends JPanel {
 		lblCelular.setFont(fuente);
 		lblPlaca.setFont(fuente);
 		lblTipoDeCobro.setFont(fuente);
-
 		jcomboPrecio.setFont(fuente);
-
 		btnAceptar.setFont(fuente);
 		btnVolver.setFont(fuente);
 
@@ -94,7 +81,6 @@ public class PanelPago extends JPanel {
 		add(btnVolver);
 
 		add(lblFondo);
-
 	}
 
 	public JLabel getLblTipoDeCobro() {
@@ -129,7 +115,7 @@ public class PanelPago extends JPanel {
 		this.lblFondo = lblFondo;
 	}
 
-	public JComboBox<String> getjcomboPrecio() {
+	public JComboBox<String> getJcomboPrecio() {
 		return jcomboPrecio;
 	}
 
@@ -141,40 +127,8 @@ public class PanelPago extends JPanel {
 		this.btnVolver = btnVolver;
 	}
 
-	public void setjcomboPrecio(JComboBox<String> jcomboPrecio) {
-		this.jcomboPrecio = jcomboPrecio;
-	}
-
-	public JButton getBtnAceptar() {
-		return btnAceptar;
-	}
-
-	public void setBtnAceptar(JButton btnAceptar) {
-		this.btnAceptar = btnAceptar;
-	}
-
-	public JLabel getLblHora() {
-		return lblHora;
-	}
-
-	public void setLblHora(JLabel lblHora) {
-		this.lblHora = lblHora;
-	}
-
-	public JComboBox<String> getJcomboPrecio() {
-		return jcomboPrecio;
-	}
-
 	public void setJcomboPrecio(JComboBox<String> jcomboPrecio) {
 		this.jcomboPrecio = jcomboPrecio;
-	}
-
-	public String[] getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(String[] precio) {
-		this.precio = precio;
 	}
 
 	public JButton getbtnAceptar() {
@@ -201,4 +155,19 @@ public class PanelPago extends JPanel {
 		this.lblCelular = lblCelular;
 	}
 
+	public JLabel getLblHora() {
+		return lblHora;
+	}
+
+	public void setLblHora(JLabel lblHora) {
+		this.lblHora = lblHora;
+	}
+
+	public JButton getBtnAceptar() {
+		return btnAceptar;
+	}
+
+	public void setBtnAceptar(JButton btnAceptar) {
+		this.btnAceptar = btnAceptar;
+	}
 }
