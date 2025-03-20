@@ -27,6 +27,7 @@ public class Controller implements ActionListener {
 	private ContadorDiario contador;
 
 	public Controller() {
+
 		cd = new ContadorDiarioDao();
 		hoy = LocalDate.now();
 		vp = new VentanaProvisional();
@@ -173,10 +174,10 @@ public class Controller implements ActionListener {
 
 	public void pago() {
 		String tipoCobro = (String) vp.getPp().getJcomboPrecio().getSelectedItem();
-		actual = new Moto(actual.getPlaca(), actual.getNumeroTelefono(), actual.getUbicacion(), actual.getLlegada(),
-				actual.getSalida(), false, actual.getTipoDeCobro(), tipoCobro);
-		m.update(actual, actual);
-		m.agregarPago(actual);
+		Moto motoAgregara = new Moto(actual.getPlaca(), actual.getNumeroTelefono(), actual.getUbicacion(),
+				actual.getLlegada(), actual.getSalida(), false, actual.getTipoDeCobro(), tipoCobro);
+		m.agregarPago(motoAgregara);
+		m.update(actual, motoAgregara);
 		JOptionPane.showMessageDialog(null, "Pago realizado con exito");
 		vp.cambiarPanel(vp.getPpam());
 		contador = cd.find(new ContadorDiario(0, hoy));
@@ -250,8 +251,9 @@ public class Controller implements ActionListener {
 
 			String horaEntradaStr = fecha.format(timeFormatter);
 			String horaSalidaStr = fechaSalida.format(timeFormatter);
-			if (pago.toUpperCase().equals("NEQUI")) {
-				if (hoy.equals(moto.getSalida().toLocalDate())) {
+			if (hoy.equals(moto.getSalida().toLocalDate())) {
+				if (pago.toUpperCase().equals("NEQUI")) {
+
 					if (moto.getTipoDePago().toUpperCase().equals("NEQUI")) {
 						matriz[0] = moto.getPlaca();
 						matriz[1] = horaEntradaStr;
@@ -263,17 +265,19 @@ public class Controller implements ActionListener {
 						modeloTabla.addRow(matriz);
 					}
 				}
-			} else if (hoy.equals(moto.getSalida().toLocalDate())) {
-				if (moto.getTipoDePago().toUpperCase().equals("EFECTIVO")) {
-					matriz[0] = moto.getPlaca();
-					matriz[1] = horaEntradaStr;
-					matriz[2] = horaSalidaStr;
-					matriz[3] = moto.getTipoDeCobro();
-					matriz[4] = m.pagoTabla(
-							new Moto("", "", "", moto.getLlegada(), moto.getSalida(), false, moto.getTipoDeCobro(), ""))
-							+ "";
+			}
+			if (hoy.equals(moto.getSalida().toLocalDate())) {
+				if (pago.toUpperCase().equals("EFECTIVO")) {
+					if (moto.getTipoDePago().toUpperCase().equals("EFECTIVO")) {
+						matriz[0] = moto.getPlaca();
+						matriz[1] = horaEntradaStr;
+						matriz[2] = horaSalidaStr;
+						matriz[3] = moto.getTipoDeCobro();
+						matriz[4] = m.pagoTabla(new Moto("", "", "", moto.getLlegada(), moto.getSalida(), false,
+								moto.getTipoDeCobro(), "")) + "";
 
-					modeloTabla.addRow(matriz);
+						modeloTabla.addRow(matriz);
+					}
 				}
 			}
 		}

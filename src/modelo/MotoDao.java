@@ -37,6 +37,7 @@ public class MotoDao {
 
 	public void agregarPago(Moto agregada) {
 		listaPagos.add(agregada);
+		writeFilePago();
 	}
 
 	public int add(Moto newData) {
@@ -73,7 +74,6 @@ public class MotoDao {
 				precio = found.precio(false);
 				break;
 			}
-			writeFilePago();
 			return precio;
 		}
 		return 0;
@@ -100,7 +100,6 @@ public class MotoDao {
 				precio = found.precio(false);
 				break;
 			}
-			writeFilePago();
 			return precio;
 		}
 		return 0;
@@ -167,7 +166,7 @@ public class MotoDao {
 
 	public void writeFilePago() {
 		String content = "";
-		for (Moto moto : listaMoto) {
+		for (Moto moto : listaPagos) {
 			content += moto.getPlaca() + ";";
 			content += moto.getLlegada() + ";";
 			content += moto.getSalida() + ";";

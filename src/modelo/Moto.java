@@ -164,24 +164,51 @@ public class Moto implements Serializable {
 	public double precioDeportista() {
 		Duration duracion = Duration.between(llegada, salida);
 		long minutos = duracion.toMinutes();
-		if (minutos < 180) {
-			return 5500;
+		double precio = 0;
+		if (minutos < 60) {
+			if (minutos < 15) {
+				return 500;
+			} else if (minutos < 30) {
+				return 1000;
+			} else if (minutos < 45) {
+				return 1500;
+			} else {
+				return 2000;
+			}
+		} else if (minutos < 120) {
+			if (minutos < 75) {
+				return 2500;
+			} else if (minutos < 90) {
+				return 3100;
+			} else if (minutos < 105) {
+				return 3700;
+			} else {
+				return 4300;
+			}
+		} else if (minutos < 180) {
+			if (minutos < 135) {
+				return 5000;
+			} else if (minutos < 150) {
+				return 5300;
+			} else if (minutos < 180) {
+				return 5500;
+			}
 		} else {
-			double precio = precio(true);
+			precio = precio(true);
 			precio = precio + 5500;
-
 			if (precio >= 10000) {
 				return 10000;
 			}
 			return precio;
 		}
+		return precio;
 	}
 
-	public double precio(boolean esDeportista) {
+	public double precio(boolean deportista) {
 		Duration duracion = Duration.between(llegada, salida);
 		long minutos = duracion.toMinutes();
 
-		if (esDeportista == true) {
+		if (deportista) {
 			minutos = minutos - 180;
 		}
 
