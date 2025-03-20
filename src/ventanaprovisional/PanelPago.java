@@ -13,7 +13,7 @@ public class PanelPago extends JPanel {
 	private JButton btnAceptar, btnVolver;
 	private JLabel lblFondo, lblHora, lblMinutos, lblPlaca, lblCelular, lblPrecio, lblTipoDeCobro;
 	private JComboBox<String> jcomboPrecio;
-	private String[] precio = { "Efectivo", "Nequi" };
+	private String[] precio = { "Efectivo", "Nequi", "Daviplata" };
 
 	private Font fuente = new Font("Verdana", Font.BOLD, 28);
 

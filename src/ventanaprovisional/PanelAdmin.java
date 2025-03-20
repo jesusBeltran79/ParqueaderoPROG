@@ -27,7 +27,7 @@ public class PanelAdmin extends JPanel {
 	private Font fuente2 = new Font("Times new Roman", Font.BOLD, 17);
 
 	private JComboBox<String> jcomboPrecio;
-	private String[] precio = { "Efectivo", "Nequi" };
+	private String[] precio = { "Efectivo", "Nequi", "Daviplata" };
 
 	public PanelAdmin() {
 		inicializarComponentes();

@@ -305,6 +305,20 @@ public class Controller implements ActionListener {
 					}
 				}
 			}
+
+			if (hoy.equals(moto.getSalida().toLocalDate())) {
+				if (pago.toUpperCase().equals("DAVIPLATA")) {
+					if (moto.getTipoDePago().toUpperCase().equals("DAVIPLATA")) {
+						matriz[0] = moto.getPlaca();
+						matriz[1] = horaEntradaStr;
+						matriz[2] = horaSalidaStr;
+						matriz[3] = moto.getTipoDeCobro();
+						matriz[4] = m.pagoTabla(new Moto("", "", "", moto.getLlegada(), moto.getSalida(), false,
+								moto.getTipoDeCobro(), "")) + "";
+						modeloTabla.addRow(matriz);
+					}
+				}
+			}
 		}
 	}
 
