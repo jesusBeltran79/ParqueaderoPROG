@@ -6,7 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/user/git/Parqueadero/lib/core-3.5.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/user/git/Parqueadero/lib/itextpdf-5.5.13.4.jar"/>
+	<classpathentry kind="lib" path="src/libs/core-3.5.3.jar"/>
+	<classpathentry kind="lib" path="src/libs/itextpdf-5.5.13.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
