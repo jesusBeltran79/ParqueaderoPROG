@@ -2,6 +2,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import modelo.ContadorDiario;
 import modelo.ContadorDiarioDao;
 import modelo.Moto;
 import modelo.MotoDao;
+import modelo.PrintExample;
 import ventanaprovisional.VentanaProvisional;
 
 public class Controller implements ActionListener {
@@ -26,6 +28,7 @@ public class Controller implements ActionListener {
 	private ContadorDiario contador;
 
 	public Controller() {
+
 		cd = new ContadorDiarioDao();
 		hoy = LocalDate.now();
 		vp = new VentanaProvisional();
@@ -134,8 +137,19 @@ public class Controller implements ActionListener {
 		Moto agregar = new Moto(placa, numero, ubicacion, llegada, null, true, tipoPago, "");
 
 		if (m.add(agregar) == 1) {
-			JOptionPane.showMessageDialog(null, "Moto creada con exito");
 			m.add(agregar);
+			actual = agregar;
+			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+			String horaEntrada = actual.getLlegada().format(timeFormatter);
+			try {
+				BufferedImage ticketImage = PrintExample.generateTicketImageIngreso(actual.getPlaca(), horaEntrada,
+						actual.getNumeroTelefono());
+				PrintExample.printTicketImage(ticketImage);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, "Moto creada con exito");
+
 			return;
 		} else if (m.add(agregar) == 2) {
 			LocalDateTime salida = LocalDateTime.now();
@@ -163,28 +177,55 @@ public class Controller implements ActionListener {
 			tipoPago = (String) vp.getPpam().getJcomboPago().getSelectedItem();
 			actual = new Moto(agregar.getPlaca(), agregar.getNumeroTelefono(), ubicacion, llegadaNueva, null, true,
 					tipoPago, "");
+			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+			String horaEntrada = actual.getLlegada().format(timeFormatter);
+			try {
+				// Generar la imagen del ticket
+				BufferedImage ticketImage = PrintExample.generateTicketImageIngreso(actual.getPlaca(), horaEntrada,
+						actual.getNumeroTelefono());
+				// Enviar la imagen a la impresora
+				PrintExample.printTicketImage(ticketImage);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			JOptionPane.showMessageDialog(null, "Moto guardada con exito");
 			m.update(agregar, actual);
 		}
 	}
 
-	/**
-	 * Método que se ejecuta cuando se confirma el pago (acción del botón en
-	 * PanelPago).
-	 */
 	public void pago() {
 		String tipoCobro = (String) vp.getPp().getJcomboPrecio().getSelectedItem();
 		Moto motoAgregara = new Moto(actual.getPlaca(), actual.getNumeroTelefono(), actual.getUbicacion(),
 				actual.getLlegada(), actual.getSalida(), false, actual.getTipoDeCobro(), tipoCobro);
 		m.agregarPago(motoAgregara);
 		m.update(actual, motoAgregara);
+		actual = motoAgregara;
 		JOptionPane.showMessageDialog(null, "Pago realizado con exito");
 		vp.cambiarPanel(vp.getPpam());
+
 		contador = cd.find(new ContadorDiario(0, hoy));
 		double ganancia = contador.getGanancia() + m.pago(actual);
 		cd.update(contador, new ContadorDiario(ganancia, hoy));
 		contador = new ContadorDiario(ganancia, hoy);
 		vp.getPa().getLblGanancias().setText(contador.getGanancia() + "");
+
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+		String horaEntrada = actual.getLlegada().format(timeFormatter);
+		String horaSalida = actual.getSalida().format(timeFormatter);
+		Duration duracion = Duration.between(actual.getLlegada(), actual.getSalida());
+		long horas = duracion.toHoursPart();
+		long minutos = duracion.toMinutesPart();
+		double totalPagar = m.pago(actual);
+
+		try {
+			// Generar la imagen del ticket
+			BufferedImage ticketImage = PrintExample.generateTicketImage(actual.getTipoDeCobro(), actual.getPlaca(),
+					horaEntrada, horaSalida, horas, minutos, totalPagar);
+			// Enviar la imagen a la impresora
+			PrintExample.printTicketImage(ticketImage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void cambioAAdmin() {

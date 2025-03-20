@@ -193,11 +193,18 @@ public class Moto implements Serializable {
 			} else if (minutos < 180) {
 				return 5500;
 			}
+		} else if (minutos > 300 && minutos < 720) {
+			return 10000;
 		} else {
-			precio = precio(true);
-			precio = precio + 5500;
-			if (precio >= 10000) {
-				return 10000;
+			precio = 10000;
+			minutos = minutos - 720;
+			while (minutos > 0) {
+				precio += 2000;
+				minutos = minutos - 60;
+				if (minutos < 0) {
+					return precio;
+				}
+
 			}
 			return precio;
 		}
